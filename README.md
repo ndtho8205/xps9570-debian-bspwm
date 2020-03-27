@@ -29,20 +29,20 @@ Experiences of Debian with bspwm tiling window manager installation on my Dell X
 - [ ] Fn-keys
 - [ ] Sound
 
-## Configuration
+## My XPS 9570 Specifications
 
-- Killer 1535-chip and Intel 9260-chip
-
-| -          | -                                  |
-| ---------- | ---------------------------------- |
-| CPU        | Intel Core i7-8750H CPU @ 2.20 GHz |
-| RAM        | 16GB                               |
-| HDD        |                                    |
-| Video card | Nvidia GeForce GTX 1050 Ti         |
-| Screen     | FullHD non-touch                   |
-| Wifi       | Killter 1535                       |
-| Battery    | Dell SMP GPM0365 423  97Whr        |
-| Touchpad   |                                    |
+| -                     | -                                             |
+| --------------------- | --------------------------------------------- |
+| CPU                   | Intel Core i7-8750H CPU @ 2.20 GHz            |
+| Memory                | 16GB DDR4-2666MHz                             |
+| Storage               | 512GB PCIe NMVeSSD                            |
+| Integrated Video card | Intel UHD Graphics 630                        |
+| Discrete Video card   | NVIDIA® GeForce® GTX 1050Ti 4GB GDDR5         |
+| Screen                | 15.6" FHD non-touchscreen                     |
+| Wifi                  | Killer 1535 802.11ac 2x2 Wifi & Bluetooth 4.1 |
+| Battery               | 97WHr                                         |
+| Touchpad              | Multi-touch gesture support                   |
+| Fingerprint Reader    | Goodix Fingerprint Sensor Driver              |
 
 - `lspci` output:
 
@@ -87,4 +87,5 @@ Experiences of Debian with bspwm tiling window manager installation on my Dell X
 
 ## Credits
 
+- [Arch Linux Wiki](https://wiki.archlinux.org/index.php/Dell_XPS_15_9570)
 - [delta-one/dell-xps-15-9570-debian-linux](https://github.com/delta-one/dell-xps-15-9570-debian-linux)
