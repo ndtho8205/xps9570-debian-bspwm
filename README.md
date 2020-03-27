@@ -2,7 +2,15 @@
 
 Experiences of Debian with bspwm tiling window manager installation on my Dell XPS 15 9570.
 
-## Checklist
+## TODO
+
+- [ ] Debian + Desktop enviroment installation (WIP)
+  - Working on virtual machine before installing on the real computer
+  - Check my notes in `Debian with bspwm Installation` section
+- [ ] Before installation: docs
+- [ ] After installation: apps + tools + docs
+
+## Checklist for installation
 
 - [ ] Wifi + Bluetooth
 - [ ] Atheros Wifi
@@ -69,15 +77,13 @@ Experiences of Debian with bspwm tiling window manager installation on my Dell X
 
 - [notes](./before-installation.md)
 
-## Installation
+## Debian with bspwm Installation
 
 - [notes](./installation.md)
 
 ## After installation
 
 - [notes](./after-installation.md)
-
-## Notes
 
 ## Credits
 
