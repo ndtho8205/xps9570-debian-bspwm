@@ -80,18 +80,18 @@ These steps help to install Debian alongside Windows 10 (dual-booting)
 
 - Change _SATA Operation mode_ from `RAID` to `AHCI` to allow Debian to detect
   the storage drive (NVMe SSD):
-  - Run `cmd` as an admin (on Windows 10),
-    then run `bcdedit /set {current} safeboot minimal`
+  - Run `cmd` as an admin (on Windows 10), then run
+    `bcdedit /set {current} safeboot minimal`
   - Reboot. Press F2 to go to `System Configuration`
   - In the SATA option, select `AHCI`
   - Save and reboot to Windows 10
   - Run `cmd` as an admin, then run `bcdedit /deletevalue {current} safeboot`
   - Reboot
 - Disable _Secure Boot_ to allow Debian to boot and prevent Nvidia card problems
-- Create a bootable CD/USB using Debian installation image.
-  The **complete** image should be used to make the installation easier without
-  Internet connection (Debian won't detect WiFi networks due to the lack of
-  non-free WiFi driver in the image).
+- Create a bootable CD/USB using Debian installation image. The **complete**
+  image should be used to make the installation easier without Internet
+  connection (Debian won't detect WiFi networks due to the lack of non-free WiFi
+  driver in the image).
 
 ## Debian with bspwm Installation
 
