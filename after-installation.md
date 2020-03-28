@@ -32,7 +32,7 @@
 - Audio
 - Network management
 
-  ```shell
+  ```sh
   sudo apt install networkmanager
   systemctl status NetworkManager
   nmtui
@@ -42,7 +42,7 @@
 - Killer WiFi 1650 card
 - Touchpad, multi-touch gesture
 
-  ```shell
+  ```sh
   sudo apt-get install xserver-xorg-input-libinput
   sudo apt-get remove --purge xserver-xorg-input-synaptics
   sudo reboot
@@ -50,7 +50,7 @@
 
 - Improve battery life
 
-  ```shell
+  ```sh
   sudo apt update
   sudo apt install tlp tlp-rdw powertop
   sudo tlp start

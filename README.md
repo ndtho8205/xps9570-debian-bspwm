@@ -47,7 +47,7 @@ XPS 9570.
 
 - `lspci` output:
 
-  ```
+  ```sh
   00:00.0 Host bridge: Intel Corporation 8th Gen Core Processor Host Bridge/DRAM Registers (rev 07)
   00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor PCIe Controller (x16) (rev 07)
   00:02.0 VGA compatible controller: Intel Corporation Device 3e9b
