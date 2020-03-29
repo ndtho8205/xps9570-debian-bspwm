@@ -59,6 +59,10 @@ sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager 
 # fonts
 sudo apt install ttf-mscorefonts-installer ttf-dejavu
 
+# east asian fonts
+# https://en.wikipedia.org/wiki/Help%3AMultilingual_support_%28East_Asian%29#Debian-based_GNU.2FLinux
+sudo apt install fonts-arphic-ukai fonts-arphic-uming fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core
+
 # JetBrainsMono Nerd Font
 wget -P ~/.local/share/fonts \
     https://github.com/ndtho8205/JetBrainsMono/raw/nerd-fonts/nerd-fonts/JetBrainsMono_Nerd_Bold.ttf && \
@@ -190,7 +194,7 @@ cp -vs $(pwd)/dunstify ~/.local/bin/
 
 #====================================================================
 # volume control: pulseaudio + alsamixer
-sudo apt install pulseaudio alsautils
+sudo apt install pulseaudio alsa-utils
 
 reboot
 #****************************************************************}}}}

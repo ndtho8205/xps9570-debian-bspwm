@@ -39,6 +39,16 @@
   nmcli
   ```
 
+  - Disable random MAC addresses by appending the following to
+    `/etc/NetworkManager/NetworkManager.conf`:
+
+    ```sh
+    [device]
+    wifi.scan-rand-mac-address=no
+    ```
+
+  - Restart NetworkManager service
+
 - Killer WiFi 1650 card
 - Touchpad, multi-touch gesture
 
@@ -46,6 +56,7 @@
   sudo apt-get install xserver-xorg-input-libinput
   sudo apt-get remove --purge xserver-xorg-input-synaptics
   sudo reboot
+  # add 90-touchpad.conf to /etc/X11/xorg.conf.d/
   ```
 
 - Improve battery life
@@ -55,6 +66,7 @@
   sudo apt install tlp tlp-rdw powertop
   sudo tlp start
   sudo powertop --auto-tune
+  # sudo systemctl enable powertop
   sudo reboot
   ```
 
@@ -62,5 +74,21 @@
 - Screen brightness
 - Keyboard backlight
 - NVIDIA Drivers
+- On-demand Nvidia: `bumblebee`,`bbswitch`, `optirun`
 - Fingerprint reader
 - Thunderbolt
+- Lock screen, suspend, trigger suspend on closing lid
+- Set DPI, anti-aliasing, hinting
+
+  ```shell
+  $ xrdb -query -all
+
+  *customization:	-color
+  Xft.dpi:	96
+  Xft.antialias:	1
+  Xft.hinting:	1
+  Xft.hintstyle:	hintslight
+  Xft.rgba:	none
+  Xcursor.size:	24
+  Xcursor.theme:	DMZ-White
+  ```
