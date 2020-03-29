@@ -78,10 +78,11 @@ XPS 9570.
 
 These steps help to install Debian alongside Windows 10 (dual-booting)
 
+- The System BIOS should be updated to the latest version
 - **Do not** turn off BIOS POST Behaviour `FastBoot` (by changing from the
-  default value `minimal` to `thorough`). Instead, _Windows fast startup_
-  **must** be turned off, or the Windows filesystems might be corrupted when
-  booting to Debian and accessing Windows partitions.
+  default value `minimal` to `thorough`). Instead, Windows _fast startup_
+  **_must_** be turned off, or the Windows filesystems might be corrupted when
+  booting to Debian and accessing Windows partitions
 - Change _SATA Operation mode_ from `RAID` to `AHCI` to allow Debian to detect
   the storage drive (NVMe SSD):
   - Run `cmd` as an admin (on Windows 10), then run
@@ -95,7 +96,7 @@ These steps help to install Debian alongside Windows 10 (dual-booting)
 - Create a bootable CD/USB using Debian installation image. The **complete**
   image should be used to make the installation easier without Internet
   connection (Debian won't detect WiFi networks due to the lack of non-free WiFi
-  driver in the image).
+  driver in the image)
 
 ## Debian with bspwm Installation
 
