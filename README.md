@@ -45,33 +45,80 @@ XPS 9570.
 | Touchpad              | Multi-touch gesture support                   |
 | Fingerprint Reader    | Goodix Fingerprint Sensor Driver              |
 
-- `lspci` output:
+- `lspci -knn` output:
 
   ```sh
-  00:00.0 Host bridge: Intel Corporation 8th Gen Core Processor Host Bridge/DRAM Registers (rev 07)
-  00:01.0 PCI bridge: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor PCIe Controller (x16) (rev 07)
-  00:02.0 VGA compatible controller: Intel Corporation Device 3e9b
-  00:04.0 Signal processing controller: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem (rev 07)
-  00:08.0 System peripheral: Intel Corporation Xeon E3-1200 v5/v6 / E3-1500 v5 / 6th/7th Gen Core Processor Gaussian Mixture Model
-  00:12.0 Signal processing controller: Intel Corporation Cannon Lake PCH Thermal Controller (rev 10)
-  00:14.0 USB controller: Intel Corporation Cannon Lake PCH USB 3.1 xHCI Host Controller (rev 10)
-  00:14.2 RAM memory: Intel Corporation Cannon Lake PCH Shared SRAM (rev 10)
-  00:15.0 Serial bus controller [0c80]: Intel Corporation Device a368 (rev 10)
-  00:15.1 Serial bus controller [0c80]: Intel Corporation Device a369 (rev 10)
-  00:16.0 Communication controller: Intel Corporation Cannon Lake PCH HECI Controller (rev 10)
-  00:17.0 SATA controller: Intel Corporation Device a353 (rev 10)
-  00:1b.0 PCI bridge: Intel Corporation Device a340 (rev f0)
-  00:1c.0 PCI bridge: Intel Corporation Device a338 (rev f0)
-  00:1c.4 PCI bridge: Intel Corporation Device a33c (rev f0)
-  00:1d.0 PCI bridge: Intel Corporation Cannon Lake PCH PCI Express Root Port 9 (rev f0)
-  00:1f.0 ISA bridge: Intel Corporation Device a30e (rev 10)
-  00:1f.3 Audio device: Intel Corporation Cannon Lake PCH cAVS (rev 10)
-  00:1f.4 SMBus: Intel Corporation Cannon Lake PCH SMBus Controller (rev 10)
-  00:1f.5 Serial bus controller [0c80]: Intel Corporation Cannon Lake PCH SPI Controller (rev 10)
-  01:00.0 3D controller: NVIDIA Corporation GP107M [GeForce GTX 1050 Ti Mobile] (rev a1)
-  3b:00.0 Network controller: Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)
-  3c:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS525A PCI Express Card Reader (rev 01)
-  3d:00.0 Non-Volatile memory controller: Toshiba America Info Systems Device 0116
+  00:00.0 Host bridge [0600]: Intel Corporation 8th Gen Core Processor Host Bridge/DRAM Registers [8086:3ec4] (rev 07)
+    Subsystem: Dell Device [1028:087c]
+  00:01.0 PCI bridge [0604]: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor PCIe Controller (x16) [8086:1901] (rev 07)
+    Kernel driver in use: pcieport
+  00:02.0 VGA compatible controller [0300]: Intel Corporation Device [8086:3e9b]
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: i915
+    Kernel modules: i915
+  00:04.0 Signal processing controller [1180]: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem [8086:1903] (rev 07)
+    Subsystem: Dell Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem [1028:087c]
+    Kernel driver in use: proc_thermal
+    Kernel modules: processor_thermal_device
+  00:08.0 System peripheral [0880]: Intel Corporation Xeon E3-1200 v5/v6 / E3-1500 v5 / 6th/7th Gen Core Processor Gaussian Mixture Model [8086:1911]
+    Subsystem: Dell Xeon E3-1200 v5/v6 / E3-1500 v5 / 6th/7th Gen Core Processor Gaussian Mixture Model [1028:087c]
+  00:12.0 Signal processing controller [1180]: Intel Corporation Cannon Lake PCH Thermal Controller [8086:a379] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: intel_pch_thermal
+    Kernel modules: intel_pch_thermal
+  00:14.0 USB controller [0c03]: Intel Corporation Cannon Lake PCH USB 3.1 xHCI Host Controller [8086:a36d] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: xhci_hcd
+  00:14.2 RAM memory [0500]: Intel Corporation Cannon Lake PCH Shared SRAM [8086:a36f] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+  00:15.0 Serial bus controller [0c80]: Intel Corporation Device [8086:a368] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: intel-lpss
+    Kernel modules: intel_lpss_pci
+  00:15.1 Serial bus controller [0c80]: Intel Corporation Device [8086:a369] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: intel-lpss
+    Kernel modules: intel_lpss_pci
+  00:16.0 Communication controller [0780]: Intel Corporation Cannon Lake PCH HECI Controller [8086:a360] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: mei_me
+    Kernel modules: mei_me
+  00:17.0 SATA controller [0106]: Intel Corporation Device [8086:a353] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: ahci
+    Kernel modules: ahci
+  00:1b.0 PCI bridge [0604]: Intel Corporation Device [8086:a340] (rev f0)
+    Kernel driver in use: pcieport
+  00:1c.0 PCI bridge [0604]: Intel Corporation Device [8086:a338] (rev f0)
+    Kernel driver in use: pcieport
+  00:1c.4 PCI bridge [0604]: Intel Corporation Device [8086:a33c] (rev f0)
+    Kernel driver in use: pcieport
+  00:1d.0 PCI bridge [0604]: Intel Corporation Cannon Lake PCH PCI Express Root Port 9 [8086:a330] (rev f0)
+    Kernel driver in use: pcieport
+  00:1f.0 ISA bridge [0601]: Intel Corporation Device [8086:a30e] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+  00:1f.3 Audio device [0403]: Intel Corporation Cannon Lake PCH cAVS [8086:a348] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel driver in use: snd_hda_intel
+    Kernel modules: snd_hda_intel
+  00:1f.4 SMBus [0c05]: Intel Corporation Cannon Lake PCH SMBus Controller [8086:a323] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+    Kernel modules: i2c_i801
+  00:1f.5 Serial bus controller [0c80]: Intel Corporation Cannon Lake PCH SPI Controller [8086:a324] (rev 10)
+    Subsystem: Dell Device [1028:087c]
+  01:00.0 3D controller [0302]: NVIDIA Corporation GP107M [GeForce GTX 1050 Ti Mobile] [10de:1c8c] (rev a1)
+    Kernel modules: nvidiafb, nouveau, nvidia_drm, nvidia
+  3b:00.0 Network controller [0280]: Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter [168c:003e] (rev 32)
+    Subsystem: Bigfoot Networks, Inc. QCA6174 802.11ac Wireless Network Adapter [1a56:1535]
+    Kernel driver in use: ath10k_pci
+    Kernel modules: ath10k_pci
+  3c:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS525A PCI Express Card Reader [10ec:525a] (rev 01)
+    Subsystem: Dell RTS525A PCI Express Card Reader [1028:087c]
+    Kernel driver in use: rtsx_pci
+    Kernel modules: rtsx_pci
+  3d:00.0 Non-Volatile memory controller [0108]: Toshiba America Info Systems Device [1179:0116]
+    Subsystem: Toshiba America Info Systems Device [1179:0001]
+    Kernel driver in use: nvme
   ```
 
 ## Before installation
