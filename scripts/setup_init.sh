@@ -37,20 +37,13 @@ _parse_params() {
   done
 }
 
-_install_packages() {
-  sudo apt install ${force:+'-y'} pulseaudio alsa-utils
-}
-
-_config_audio() {
-  :
-}
-
-setup_audio() {
-  _install_packages
-  _config_audio
+install_packages() {
+  sudo apt install ${force:+'-y'} \
+    build-essential git wget curl gdebi unzip fontconfig
 }
 
 if ! (return 0 2>/dev/null); then
   _parse_params "$@"
-  setup_audio
+
+  install_packages
 fi

@@ -7,26 +7,44 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-USAGE: $(basename "$0") INSTALLATION_DIR
+usage: $(basename "$0") [OPTION]
+
+Options:
+  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -h, --help     Show this help and exit
 EOF
 }
 
-_install_chrome() {
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  sudo gdebi google*.deb
-  rm -rf google*.deb
-}
+_parse_params() {
+  local param
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
 
-setup_chrome() {
-  _install_chrome
+    case $param in
+    -f | --force)
+      force=true
+      ;;
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+}
+install_chrome() {
+  wget \
+    -O google-chrome.deb \
+    https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  sudo gdebi ${force:+'--non-interactive'} google-chrome.deb
+  rm -rf google-chrome.deb
 }
 
 if ! (return 0 2>/dev/null); then
-
-  if [ $# -eq 0 ]; then
-    _print_usage
-    exit 1
-  fi
-
-  setup_chrome
+  _parse_params "$@"
+  install_chrome
 fi

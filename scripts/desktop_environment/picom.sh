@@ -7,12 +7,49 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-USAGE: $(basename "$0") INSTALLATION_DIR
+usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+
+Options:
+  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -h, --help     Show this help and exit
 EOF
 }
 
+_parse_params() {
+  local param
+
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    -i)
+      installation_dir=$1
+      shift
+      ;;
+    -f | --force)
+      force=true
+      ;;
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+
+  if [ -z "$installation_dir" ]; then
+    echo "error: the following arguments are required: -i INSTALLATION_DIR"
+    exit 1
+  fi
+}
+
 _install_picom_dependencies() {
-  sudo apt install meson ninja-build \
+  sudo apt install ${force:+'-y'} \
+    meson ninja-build libxdg-basedir-dev libpcre++-dev \
     libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev \
     libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev \
     libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev \
@@ -21,32 +58,26 @@ _install_picom_dependencies() {
     libevdev-dev uthash-dev libev-dev libx11-xcb-dev
 }
 
-_install_picom() {
-  local picom_installation_dir=$1
+setup_picom() {
+  local picom_installation_dir="${1}/picom"
 
-  git clone https://github.com/yshui/picom.git
+  _install_picom_dependencies
+
+  git clone https://github.com/yshui/picom.git "$picom_installation_dir"
+  cd "$picom_installation_dir"
   git checkout vNext
-
-  cd picom
   git submodule update --init --recursive
+
   meson --buildtype=release . build
   ninja -C build
   sudo ninja -C build install
 }
 
-setup_bspwm() {
-  local picom_installation_dir=$1
-
-  _install_picom_dependencies
-  _install_picom"$picom_installation_dir"
-}
-
 if ! (return 0 2>/dev/null); then
+  installation_dir=
 
-  if [ $# -eq 0 ]; then
-    _print_usage
-    exit 1
-  fi
+  _parse_params "$@"
+  setup_picom "$installation_dir"
 
-  setup_picom"$1"
+  unset installation_dir
 fi

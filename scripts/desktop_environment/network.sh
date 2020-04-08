@@ -38,19 +38,19 @@ _parse_params() {
 }
 
 _install_packages() {
-  sudo apt install ${force:+'-y'} pulseaudio alsa-utils
+  sudo apt install ${force:+'-y'} network-manager
 }
 
-_config_audio() {
+_config_network() {
   :
 }
 
-setup_audio() {
+setup_network() {
   _install_packages
-  _config_audio
+  _config_network
 }
 
 if ! (return 0 2>/dev/null); then
   _parse_params "$@"
-  setup_audio
+  _install_packages
 fi

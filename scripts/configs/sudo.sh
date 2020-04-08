@@ -37,20 +37,25 @@ _parse_params() {
   done
 }
 
-_install_packages() {
-  sudo apt install ${force:+'-y'} pulseaudio alsa-utils
-}
+setup_sudo() {
+  local user=$(id -un)
 
-_config_audio() {
-  :
-}
+  # run as root
+  # su -
 
-setup_audio() {
-  _install_packages
-  _config_audio
+  # install sudo package
+  apt update
+  apt install ${force:+'-y'} sudo
+
+  # add current user to sudo group
+  usermod -aG sudo "$user"
+
+  # reboot
+  reboot
 }
 
 if ! (return 0 2>/dev/null); then
   _parse_params "$@"
-  setup_audio
+
+  setup_sudo
 fi

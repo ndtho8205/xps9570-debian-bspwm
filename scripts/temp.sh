@@ -7,8 +7,7 @@ set -o pipefail
 
 vi /etc/apt/sources.list
 apt update && apt upgrade
-apt install build-essential git wget curl gdebi unzip \
-  vim-gtk3 tmux htop tree psmisc
+apt install vim-gtk3 tmux htop tree psmisc
 
 #{{{{****************************************************************
 #====================================================================

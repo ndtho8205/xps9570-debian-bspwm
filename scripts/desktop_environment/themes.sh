@@ -7,21 +7,55 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-USAGE: $(basename "$0") INSTALLATION_DIR
+usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+
+Options:
+  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -h, --help     Show this help and exit
 EOF
 }
 
-_install_flat_themes() {
-  local themes_installation_dir=$1
+_parse_params() {
+  local param
 
-  git clone https://github.com/daniruiz/flat-remix-gtk.git
-  cd flat-remix-gtk
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    -i)
+      installation_dir=$1
+      shift
+      ;;
+    -f | --force)
+      force=true
+      ;;
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+
+  if [ -z "$installation_dir" ]; then
+    echo "error: the following arguments are required: -i INSTALLATION_DIR"
+    exit 1
+  fi
+}
+
+_install_flat_themes() {
+  local themes_installation_dir="${1}/flat-remix-gtk"
+
+  git clone https://github.com/daniruiz/flat-remix-gtk.git "$themes_installation_dir"
+  cd "$themes_installation_dir"
   sudo make install
 }
 
 _install_suru_icons() {
-  local icons_installation_dir=$1
-
   # suru-plus icons
   wget -qO- https://raw.githubusercontent.com/gusbemacbe/suru-plus/master/install.sh | sh
 
@@ -35,19 +69,14 @@ setup_themes() {
   local installation_dir=$1
 
   _install_flat_themes "$installation_dir"
-  _install_suru_icons "$installation_dir"
-
-  sudo update-alternatives --install \
-    /usr/bin/x-session-manager x-session-manager \
-    "$(command -v themes)" 90
+  _install_suru_icons
 }
 
 if ! (return 0 2>/dev/null); then
+  installation_dir=
 
-  if [ $# -eq 0 ]; then
-    _print_usage
-    exit 1
-  fi
+  _parse_params "$@"
+  setup_themes "$installation_dir"
 
-  setup_themes "$1"
+  unset installation_dir
 fi

@@ -7,31 +7,61 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-USAGE: $(basename "$0") INSTALLATION_DIR
+usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+
+Options:
+  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -h, --help     Show this help and exit
 EOF
 }
 
-_install_dotfiles() {
-  local dotfiles_installation_dir=$1
+_parse_params() {
+  local param
 
-  git clone git@github.com:ndtho8205/dotfiles.git
-  cd dotfiles
-  git submodule update --init --recursive
-  ./install.sh
+  while [[ $# -gt 0 ]]; do
+    param="$1"
+    shift
+
+    case $param in
+    -i)
+      installation_dir=$1
+      shift
+      ;;
+    -f | --force)
+      force=true
+      ;;
+    -h | --help)
+      _print_usage
+      exit 0
+      ;;
+    *)
+      echo "error: unrecognized arguments: $param"
+      exit 1
+      ;;
+    esac
+  done
+
+  if [ -z "$installation_dir" ]; then
+    echo "error: the following arguments are required: -i INSTALLATION_DIR"
+    exit 1
+  fi
 }
 
 setup_dotfiles() {
-  local dotfiles_installation_dir=$1
+  local dotfiles_installation_dir="${1}/dotfiles"
 
-  _install_dotfiles "$dotfiles_installation_dir"
+  git clone git@github.com:ndtho8205/dotfiles.git "$dotfiles_installation_dir"
+  cd "$dotfiles_installation_dir"
+  git submodule update --init --recursive
+
+  ./install.sh ${force:+'-f'}
 }
 
 if ! (return 0 2>/dev/null); then
+  installation_dir=
 
-  if [ $# -eq 0 ]; then
-    _print_usage
-    exit 1
-  fi
+  _parse_params "$@"
+  setup_dotfiles "$installation_dir"
 
-  setup_dotfiles "$1"
+  unset installation_dir
 fi
