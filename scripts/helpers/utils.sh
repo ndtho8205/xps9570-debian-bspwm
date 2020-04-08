@@ -1,27 +1,38 @@
 #!/usr/bin/env bash
 
-if test -t 1; then
-  ncolors=$(which tput >/dev/null && tput colors)
+ta_normal=
+fg_blue='' fg_red='' fg_green=''
+bg_blue='' bg_red='' bg_green=''
 
-  if test -n "$ncolors" && test "$ncolors" -ge 8; then
-    STANDOUT="$(tput smso)"
-    NORMAL="$(tput sgr0)"
-    GREEN="$(tput setaf 2)"
-    BLUE="$(tput setaf 4)"
-    RED="$(tput setaf 1)"
-  fi
+ncolors=$(command -v tput >/dev/null && tput colors)
+if test -n "$ncolors" && test "$ncolors" -ge 8; then
+  ta_normal="$(tput sgr0)"
+
+  fg_blue="$(tput setaf 4)"
+  fg_red="$(tput setaf 1)"
+  fg_green="$(tput setaf 2)"
+
+  bg_blue="$(tput setab 4)"
+  bg_red="$(tput setab 1)"
+  bg_green="$(tput setab 2)"
 fi
 
 info() {
-  printf "${STANDOUT}${BLUE} INFO ${NORMAL} ${BLUE}%s${NORMAL}\n" "$1"
+  printf "${bg_blue} INFO ${ta_normal} ${fg_blue}%s${ta_normal}\n" "$1"
 }
 
 success() {
-  printf "${STANDOUT}${GREEN} DONE ${NORMAL} ${GREEN}%s${NORMAL}\n" "$1"
+  printf "${bg_green} DONE ${ta_normal} ${fg_green}%s${ta_normal}\n" "$1"
 }
 
 fail() {
-  printf "${STANDOUT}${RED} FAIL ${NORMAL} ${RED}%s${NORMAL}\n" "$1"
+  printf "${bg_red} FAIL ${ta_normal} ${fg_red}%s${ta_normal}\n" "$1"
+}
+
+assert() {
+  if [ ! $? -eq 0 ]; then
+    fail "$1"
+  fi
 }
 
 clrscr() {

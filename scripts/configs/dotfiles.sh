@@ -10,6 +10,7 @@ _print_usage() {
 usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
 
 Options:
+  --https        Use git using https (default: ssh) 
   -f, --force    Skip all user interaction. Implied 'Yes' to all actions
   -h, --help     Show this help and exit
 EOF
@@ -23,6 +24,9 @@ _parse_params() {
     shift
 
     case $param in
+    --https)
+      https=true
+      ;;
     -i)
       installation_dir=$1
       shift
@@ -50,7 +54,12 @@ _parse_params() {
 setup_dotfiles() {
   local dotfiles_installation_dir="${1}/dotfiles"
 
-  git clone git@github.com:ndtho8205/dotfiles.git "$dotfiles_installation_dir"
+  if [ $https ]; then
+    git clone https://github.com/ndtho8205/dotfiles.git "$dotfiles_installation_dir"
+  else
+    git clone git@github.com:ndtho8205/dotfiles.git "$dotfiles_installation_dir"
+  fi
+
   cd "$dotfiles_installation_dir"
   git submodule update --init --recursive
 
@@ -59,9 +68,11 @@ setup_dotfiles() {
 
 if ! (return 0 2>/dev/null); then
   installation_dir=
+  https=
 
   _parse_params "$@"
   setup_dotfiles "$installation_dir"
 
   unset installation_dir
+  unset https
 fi
