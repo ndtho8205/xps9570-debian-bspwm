@@ -10,7 +10,7 @@ _print_usage() {
 usage: $(basename "$0") [OPTION]
 
 Options:
-  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  --test         Skip all user interaction including password input. For test only 
   -h, --help     Show this help and exit
 EOF
 }
@@ -22,8 +22,8 @@ _parse_params() {
     shift
 
     case $param in
-    -f | --force)
-      force=true
+    --test)
+      test=true
       ;;
     -h | --help)
       _print_usage
@@ -42,26 +42,52 @@ _setup_git_ssh() {
   email=$2
   output_keyfile="$HOME/.ssh/id_rsa_$1"
 
-  echo "Generating public/private rsa key pair for $host"
-  echo -n "  New passphrase: "
-  read -s -r passphrase
+  echo
+  echo "Generating public/private rsa key pair for $output_keyfile"
+  echo -n "New passphrase: "
 
-  mkdir -p $HOME/.ssh
+  if [ -z ${test+false} ]; then
+    read -s -r passphrase
+  else
+    passphrase=$(id -un)
+  fi
+
+  mkdir -p "$HOME/.ssh"
   ssh-keygen \
     -t rsa -b 4096 \
     -C "$email" \
     -N "$passphrase" \
     -f "$output_keyfile" >/dev/null
 
+  echo
+  echo
+  echo Copy and paste the public key below into SSH settings
+  echo Github: https://github.com/settings/keys
+  echo Gitlab: https://gitlab.com/profile/keys
+  echo "--------------------"
   cat "${output_keyfile}.pub"
-  ssh-add ~/.ssh/id_rsa
-  ssh -T gh
+  echo "^^^^^^^^^^^^^^^^^^^^"
+
+  if [ -z "${test+false}" ]; then
+    :
+  else
+    return 0
+  fi
+
+  echo
+  echo Press Enter to continue...
+  read -r
+  echo
+  echo Re-enter your passphrase to add the generated key to ssh-agent
+  ssh-add "$output_keyfile"
+
 }
 
 setup_git() {
-  _setup_git_ssh "bb" "ndtho8205@gmail.com"
-  #_setup_git_ssh "github" "ndtho8205@gmail.com"
-  #_setup_git_ssh "gitlab" "ndtho8205@gmail.com"
+  eval "$(ssh-agent)"
+
+  _setup_git_ssh "github" "ndtho8205@gmail.com"
+  _setup_git_ssh "gitlab" "ndtho8205@gmail.com"
 }
 
 if ! (return 0 2>/dev/null); then

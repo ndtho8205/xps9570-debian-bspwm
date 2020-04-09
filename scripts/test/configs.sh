@@ -22,4 +22,10 @@ test \
   "[ -d ~/.local/share/fonts ]" \
   "fc-list | grep JetBrains && fc-list | grep Times"
 
+test \
+  "git.sh" \
+  "./configs/git.sh --test" \
+  "ls ~/.ssh | grep github" \
+  "ls ~/.ssh | grep gitlab"
+
 summary
