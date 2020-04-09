@@ -18,7 +18,7 @@ docker image prune -f
 
 test \
   "audio.sh" \
-  "./configs/audio.sh -f" \
+  "./desktop_environment/audio.sh -f" \
   "type pulseaudio && type alsamixer"
 
 test \
@@ -29,13 +29,13 @@ test \
 
 test \
   "dotfiles.sh" \
-  "./configs/dotfiles.sh -f --https -i /tmp" \
+  "./desktop_environment/dotfiles.sh -f --https -i /tmp" \
   "[ -d /tmp/dotfiles ]" \
   "[ -d ~/.dotfiles ] && [ -L ~/.vimrc ]"
 
 test \
   "dunst.sh" \
-  "./desktop_environment/dunst.sh -f -i /tmp" \
+  "./desktop_environment/dunst.sh -f -i /tmp -b v1.4.1" \
   "[ -d /tmp/dunst ]" \
   "type dunst"
 
@@ -47,19 +47,19 @@ test \
 
 test \
   "picom.sh" \
-  "./desktop_environment/picom.sh -f -i /tmp" \
+  "./desktop_environment/picom.sh -f -i /tmp -b vNext" \
   "[ -d /tmp/picom ]" \
   "type picom"
 
 test \
   "rofi.sh" \
-  "./desktop_environment/rofi.sh -f -i /tmp" \
+  "./desktop_environment/rofi.sh -f -i /tmp -b 1.5.4" \
   "[ -d /tmp/rofi ]" \
   "type rofi"
 
 test \
   "terminal_emulator.sh" \
-  "./desktop_environment/terminal_emulator.sh -f" \
+  "./desktop_environment/terminal_emulator.sh -f -u https://github.com/alacritty/alacritty/releases/download/v0.4.2/Alacritty-v0.4.2-ubuntu_18_04_amd64.deb" \
   "type alacritty"
 
 test \
