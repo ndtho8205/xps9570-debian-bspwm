@@ -10,7 +10,6 @@ _print_usage() {
 usage: $(basename "$0") [OPTION]
 
 Options:
-  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
   -h, --help     Show this help and exit
 EOF
 }
@@ -22,9 +21,6 @@ _parse_params() {
     shift
 
     case $param in
-    -f | --force)
-      force=true
-      ;;
     -h | --help)
       _print_usage
       exit 0
@@ -37,15 +33,21 @@ _parse_params() {
   done
 }
 
-install_chrome() {
-  wget \
-    -O google-chrome.deb \
-    https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  sudo gdebi ${force:+'--non-interactive'} google-chrome.deb
-  rm -rf google-chrome.deb
+setup_touchpad() {
+  sudo mkdir -p /etc/X11/xorg.conf.d && sudo tee /etc/X11/xorg.conf.d/90-touchpad.conf <<'EOF' 1>/dev/null
+Section "InputClass"
+  Identifier "touchpad"
+  MatchIsTouchpad "on"
+  Driver "libinput"
+  Option "Tapping" "on"
+  Option "TappingButtonMap" "lrm"
+  Option "NaturalScrolling" "on"
+  Option "ScrollMethod" "twofinger"
+EndSection
+EOF
 }
 
 if ! (return 0 2>/dev/null); then
   _parse_params "$@"
-  install_chrome
+  setup_touchpad
 fi

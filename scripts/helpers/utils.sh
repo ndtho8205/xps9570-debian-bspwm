@@ -29,6 +29,14 @@ fail() {
   printf "\n${bg_red} FAIL ${ta_normal} ${fg_red}%s${ta_normal}\n" "$1"
 }
 
+check_run() {
+  if [ $? -eq 0 ]; then
+    success "$1"
+  else
+    fail "$1"
+  fi
+}
+
 clrscr() {
   tput reset
 }

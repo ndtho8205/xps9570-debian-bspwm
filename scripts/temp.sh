@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o errtrace
-set -o nounset
-set -o pipefail
-
 vi /etc/apt/sources.list
 apt update && apt upgrade
 apt install vim-gtk3 tmux htop tree psmisc
@@ -20,8 +15,6 @@ sudo apt install lightdm
 
 #====================================================================
 # DE pre-installation
-mkdir -p ~/Documents/ProgramFiles/DE
-cd ~/Documents/ProgramFiles/DE
 
 #====================================================================
 # window manager: bspwm & sxhkd

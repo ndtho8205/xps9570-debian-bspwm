@@ -9,4 +9,11 @@ SCRIPT_DIR="$(
   pwd -P
 )"
 
-source "${SCRIPT_PATH}/utils.sh"
+APPS_SCRIPT_DIR="${SCRIPT_DIR}/apps"
+
+source "${SCRIPT_DIR}/helpers/utils.sh"
+
+info "Google Chrome"
+source "${APPS_SCRIPT_DIR}/google-chrome.sh"
+install_chrome
+check_run "Google Chrome"

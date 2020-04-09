@@ -28,4 +28,9 @@ test \
   "ls ~/.ssh | grep github" \
   "ls ~/.ssh | grep gitlab"
 
+test \
+  "touchpad.sh" \
+  "./configs/touchpad.sh" \
+  "[ -f /etc/X11/xorg.conf.d/90-touchpad.conf ]"
+
 summary
