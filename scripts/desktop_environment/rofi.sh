@@ -7,7 +7,7 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION] -b GIT_BRANCH -i INSTALLATION_DIR
 
 Options:
   -f, --force    Skip all user interaction. Implied 'Yes' to all actions
@@ -23,6 +23,10 @@ _parse_params() {
     shift
 
     case $param in
+    -b)
+      branch=$1
+      shift
+      ;;
     -i)
       installation_dir=$1
       shift
@@ -40,6 +44,11 @@ _parse_params() {
       ;;
     esac
   done
+
+  if [ -z "$branch" ]; then
+    echo "error: the following arguments are required: -b GIT_BRANCH"
+    exit 1
+  fi
 
   if [ -z "$installation_dir" ]; then
     echo "error: the following arguments are required: -i INSTALLATION_DIR"
@@ -59,13 +68,14 @@ _install_rofi_dependencies() {
 }
 
 setup_rofi() {
-  local rofi_installation_dir="${1}/rofi"
+  local rofi_branch="${1}"
+  local rofi_installation_dir="${2}/rofi"
 
   _install_rofi_dependencies
 
   git clone https://github.com/davatorium/rofi.git "$rofi_installation_dir"
   cd "$rofi_installation_dir"
-  git checkout 1.5.4
+  git checkout "$rofi_branch"
   git submodule update --init --recursive
 
   autoreconf -i
@@ -75,10 +85,12 @@ setup_rofi() {
 }
 
 if ! (return 0 2>/dev/null); then
+  branch=
   installation_dir=
 
   _parse_params "$@"
-  setup_rofi "$installation_dir"
+  setup_rofi "$branch" "$installation_dir"
 
+  unset branch
   unset installation_dir
 fi

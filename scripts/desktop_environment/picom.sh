@@ -7,7 +7,7 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION] -b GIT_BRANCH -i INSTALLATION_DIR
 
 Options:
   -f, --force    Skip all user interaction. Implied 'Yes' to all actions
@@ -23,6 +23,10 @@ _parse_params() {
     shift
 
     case $param in
+    -b)
+      branch=$1
+      shift
+      ;;
     -i)
       installation_dir=$1
       shift
@@ -40,6 +44,11 @@ _parse_params() {
       ;;
     esac
   done
+
+  if [ -z "$branch" ]; then
+    echo "error: the following arguments are required: -b GIT_BRANCH"
+    exit 1
+  fi
 
   if [ -z "$installation_dir" ]; then
     echo "error: the following arguments are required: -i INSTALLATION_DIR"
@@ -59,13 +68,14 @@ _install_picom_dependencies() {
 }
 
 setup_picom() {
-  local picom_installation_dir="${1}/picom"
+  local picom_branch="${1}"
+  local picom_installation_dir="${2}/picom"
 
   _install_picom_dependencies
 
   git clone https://github.com/yshui/picom.git "$picom_installation_dir"
   cd "$picom_installation_dir"
-  git checkout vNext
+  git checkout "$picom_branch"
   git submodule update --init --recursive
 
   meson --buildtype=release . build
@@ -74,10 +84,12 @@ setup_picom() {
 }
 
 if ! (return 0 2>/dev/null); then
+  branch=
   installation_dir=
 
   _parse_params "$@"
-  setup_picom "$installation_dir"
+  setup_picom "$branch" "$installation_dir"
 
+  unset branch
   unset installation_dir
 fi

@@ -7,7 +7,7 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION]
+usage: $(basename "$0") [OPTION] -u ALACRITTY_URL
 
 Options:
   -f, --force    Skip all user interaction. Implied 'Yes' to all actions
@@ -22,6 +22,10 @@ _parse_params() {
     shift
 
     case $param in
+    -u)
+      url=$1
+      shift
+      ;;
     -f | --force)
       force=true
       ;;
@@ -35,17 +39,28 @@ _parse_params() {
       ;;
     esac
   done
+
+  if [ -z "$url" ]; then
+    echo "error: the following arguments are required: -u ALACRITTY_URL"
+    exit 1
+  fi
 }
 
 setup_alacritty() {
+  local alacritty_url="${1}"
+
   wget \
     -O Alacritty.deb \
-    https://github.com/alacritty/alacritty/releases/download/v0.4.2-rc3/Alacritty-v0.4.2-rc3-ubuntu_18_04_amd64.deb
+    "$alacritty_url"
   sudo gdebi ${force:+'-n'} Alacritty.deb
   rm -rf Alacritty.deb
 }
 
 if ! (return 0 2>/dev/null); then
+  url=
+
   _parse_params "$@"
-  setup_alacritty
+  setup_alacritty "$url"
+
+  unset url
 fi
