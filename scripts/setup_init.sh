@@ -39,11 +39,18 @@ _parse_params() {
 
 install_packages() {
   sudo apt install ${force:+'-y'} \
-    build-essential git wget curl gdebi unzip fontconfig
+    build-essential git wget curl gdebi unzip fontconfig xdg-user-dirs
+}
+
+makedirs() {
+  makedirs -p "$HOME/.config"
+  makedirs -p "$HOME/.local/bin"
+  xdg-user-dirs-update
 }
 
 if ! (return 0 2>/dev/null); then
   _parse_params "$@"
 
   install_packages
+  makedirs
 fi
