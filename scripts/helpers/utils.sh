@@ -18,21 +18,15 @@ if test -n "$ncolors" && test "$ncolors" -ge 8; then
 fi
 
 info() {
-  printf "${bg_blue} INFO ${ta_normal} ${fg_blue}%s${ta_normal}\n" "$1"
+  printf "\n${bg_blue} INFO ${ta_normal} ${fg_blue}%s${ta_normal}\n" "$1"
 }
 
 success() {
-  printf "${bg_green} DONE ${ta_normal} ${fg_green}%s${ta_normal}\n" "$1"
+  printf "\n${bg_green} DONE ${ta_normal} ${fg_green}%s${ta_normal}\n" "$1"
 }
 
 fail() {
-  printf "${bg_red} FAIL ${ta_normal} ${fg_red}%s${ta_normal}\n" "$1"
-}
-
-assert() {
-  if [ ! $? -eq 0 ]; then
-    fail "$1"
-  fi
+  printf "\n${bg_red} FAIL ${ta_normal} ${fg_red}%s${ta_normal}\n" "$1"
 }
 
 clrscr() {

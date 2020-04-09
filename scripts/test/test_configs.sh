@@ -7,23 +7,30 @@ SCRIPT_DIR="$(
 
 IMAGE_NAME="bspwm_scripts_test"
 
+errors=()
+
 source "${SCRIPT_DIR}/helpers/utils.sh"
+source "${SCRIPT_DIR}/helpers/test.sh"
 
 info "Building image"
 docker build --force-rm --quiet --tag "$IMAGE_NAME" "$SCRIPT_DIR"
 docker image prune -f
 
-info "audio.sh"
-docker run -it --rm "$IMAGE_NAME" \
-  bash -c "./configs/audio.sh -f && type pulseaudio && type alsamixer"
-assert "error: audio.sh fail"
+test \
+  "audio.sh" \
+  "./configs/audio.sh -f" \
+  "type pulseaudio && type alsamixer"
 
-info "dotfiles.sh"
-docker run -it --rm "$IMAGE_NAME" \
-  bash -c "./configs/dotfiles.sh -f --https -i /tmp && [ -d /tmp/dotfiles ] && [ -d ~/.dotfiles ] && [ -L ~/.vimrc ]"
-assert "error: dotfiles.sh fail"
+test \
+  "dotfiles.sh" \
+  "./configs/dotfiles.sh -f --https -i /tmp" \
+  "[ -d /tmp/dotfiles ]" \
+  "[ -d ~/.dotfiles ] && [ -L ~/.vimrc ]"
 
-info "fonts.sh"
-docker run -it --rm "$IMAGE_NAME" \
-  bash -c "./configs/fonts.sh -f && [ -d ~/.local/share/fonts ] && fc-list | grep JetBrains && fc-list | grep Times"
-assert "error: fonts.sh fail"
+test \
+  "fonts.sh" \
+  "./configs/fonts.sh -f" \
+  "[ -d ~/.local/share/fonts ]" \
+  "fc-list | grep JetBrains && fc-list | grep Times"
+
+summary

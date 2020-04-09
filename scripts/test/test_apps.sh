@@ -7,13 +7,18 @@ SCRIPT_DIR="$(
 
 IMAGE_NAME="bspwm_scripts_test"
 
+errors=()
+
 source "${SCRIPT_DIR}/helpers/utils.sh"
+source "${SCRIPT_DIR}/helpers/test.sh"
 
 info "Building image"
 docker build --force-rm --quiet --tag "$IMAGE_NAME" "$SCRIPT_DIR"
 docker image prune -f
 
-info "google-chrome.sh"
-docker run -it --rm "$IMAGE_NAME" \
-  bash -c "./apps/google-chrome.sh -f && type google-chrome"
-assert "error: google-chrome.sh fail"
+test \
+  "google-chrome.sh" \
+  "./apps/google-chrome.sh -f" \
+  "type google-chrome"
+
+summary
