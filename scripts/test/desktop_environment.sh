@@ -17,10 +17,21 @@ docker build --force-rm --quiet --tag "$IMAGE_NAME" "$SCRIPT_DIR"
 docker image prune -f
 
 test \
+  "audio.sh" \
+  "./configs/audio.sh -f" \
+  "type pulseaudio && type alsamixer"
+
+test \
   "bspwm.sh" \
   "./desktop_environment/bspwm.sh -f -i /tmp" \
   "[ -d /tmp/bspwm ]" \
   "type bspwm"
+
+test \
+  "dotfiles.sh" \
+  "./configs/dotfiles.sh -f --https -i /tmp" \
+  "[ -d /tmp/dotfiles ]" \
+  "[ -d ~/.dotfiles ] && [ -L ~/.vimrc ]"
 
 test \
   "dunst.sh" \
