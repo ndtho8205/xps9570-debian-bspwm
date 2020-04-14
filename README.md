@@ -10,6 +10,15 @@ XPS 9570.
       before installing on the real computer)
 - [ ] After installation: apps + tools + docs
 
+## Table of contents
+
+- [My XPS 9570 Specifications](#my-xps-9570-specifications)
+- [Functionality](#functionality)
+- [Before installation](#before-installation)
+- [Debian with bspwm Installation](#debian-with-bspwm-installation)
+- [After installation](#after-installation)
+- [Credits](#credits)
+
 ## My XPS 9570 Specifications
 
 | Specification            | Detail                                            | Kernel Driver | Status             |
