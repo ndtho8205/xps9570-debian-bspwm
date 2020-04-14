@@ -4,14 +4,14 @@
 
 ## Desktop enviroment
 
+- [ ] Terminal Emulator
+- [ ] Dotfiles
 - [ ] Display server
 - [ ] Display manager
 - [ ] Tiling window manager
-- [ ] Terminal Emulator
 - [ ] Shell
 - [ ] Notification
 - [ ] Application launcher
-- [ ] Dotfiles
 - [ ] Network manager
 - [ ] Touchpad
 - [ ] Volume control
@@ -23,7 +23,7 @@
 - Hotkey daemon: xchainkeys
 - Screen locker:
 - wmutils, wew
-- sudo apt install linux-headers-$(uname -r)
+- sudo apt install linux-headers-\$(uname -r)
 - sudo update-alternatives --config x-terminal-emulator
 - tmux
 - shellcheck evince

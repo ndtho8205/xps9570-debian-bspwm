@@ -22,14 +22,12 @@
   user directories (e.g. Desktop, Downloads) within `$HOME` directory. It also
   create a local configuration file `~/.config/user-dirs.dirs`
 
-- Automatically recognize USB devices
-
-- Find application name
+* Find application name
 
   `xprop | grep WM_CLASS`
 
-- Computer doesn't restart/logout: `nouveau.modeset = 0`
-- Kernel boot parameters
+* Computer doesn't restart/logout: `nouveau.modeset = 0`
+* Kernel boot parameters
 
   ```
   GRUB_CMDLINE_LINUX_DEFAULT="quiet nouvea.modeset=0 nogpumanager pcie_aspm=off acpi_backlight=none acpi_osi=Linux acpi_osi=!"
@@ -41,8 +39,7 @@
 
   ```
 
-- Audio
-- Network management
+* Network management
 
   ```sh
   sudo apt install networkmanager
@@ -61,8 +58,7 @@
 
   - Restart NetworkManager service
 
-- Killer WiFi 1650 card
-- Touchpad, multi-touch gesture
+* Touchpad, multi-touch gesture
 
   ```sh
   sudo apt-get install xserver-xorg-input-libinput
@@ -71,7 +67,7 @@
   # add 90-touchpad.conf to /etc/X11/xorg.conf.d/
   ```
 
-- Improve battery life
+* Improve battery life
 
   ```sh
   sudo apt update
@@ -82,15 +78,7 @@
   sudo reboot
   ```
 
-- Bluetooth
-- Screen brightness
-- Keyboard backlight
-- NVIDIA Drivers
-- On-demand Nvidia: `bumblebee`,`bbswitch`, `optirun`
-- Fingerprint reader
-- Thunderbolt
-- Lock screen, suspend, trigger suspend on closing lid
-- Set DPI, anti-aliasing, hinting
+* Set DPI, anti-aliasing, hinting
 
   ```shell
   $ xrdb -query -all

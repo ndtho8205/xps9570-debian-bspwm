@@ -6,9 +6,8 @@ XPS 9570.
 ## TODO
 
 - [x] Before installation: steps + docs
-- [ ] Debian + Desktop enviroment installation (WIP)
-  - Working on virtual machine before installing on the real computer
-  - Check my notes in `Debian with bspwm Installation` section
+- [ ] Debian + Desktop enviroment installation (WIP: working on virtual machine
+      before installing on the real computer)
 - [ ] After installation: apps + tools + docs
 
 ## My XPS 9570 Specifications
@@ -121,30 +120,39 @@ XPS 9570.
 
 ## Functionality
 
-| Category              | Functionality                     | Status |
-| --------------------- | --------------------------------- | ------ |
-| **Display**           |                                   |        |
-|                       | Display brightness                | -      |
-| **Multiple monitors** |                                   |        |
-|                       | HDMI                              | -      |
-|                       | Audio on HDMI                     | -      |
-| **Keyboard**          |                                   |        |
-|                       | Keyboard backlight                | -      |
-|                       | Fn/Multimedia keys                | -      |
-| **Communications**    |                                   |        |
-|                       | Audio                             | -      |
-|                       | Bluetooth headphones              | -      |
-|                       | rfkill                            | -      |
-| **Power management**  |                                   |        |
-|                       | Suspend                           | -      |
-|                       | Hibernate                         | -      |
-|                       | AC power management               | -      |
-|                       | Battery power management          | -      |
-| **NVIDIA Video card** |                                   |        |
-|                       | Hybrid Graphics                   | -      |
-|                       | Nvidia/Intel graphic cards switch | -      |
-|                       | Sleep/wake on Nvidia              | -      |
-|                       | Sleep/wake on Intel               | -      |
+| Category              | Functionality                                                | Status |
+| --------------------- | ------------------------------------------------------------ | ------ |
+|                       | Encryption                                                   | -      |
+| **Display**           |                                                              |        |
+|                       | Display brightness                                           | -      |
+|                       | Lock screen                                                  | -      |
+|                       | Set DPI                                                      | -      |
+|                       | Anti-aliasing, hinting                                       | -      |
+| **Multiple monitors** |                                                              |        |
+|                       | HDMI                                                         | -      |
+|                       | Audio on HDMI                                                | -      |
+| **Keyboard**          |                                                              |        |
+|                       | Keyboard backlight                                           | -      |
+|                       | Fn/Multimedia keys                                           | -      |
+| **Ports**             |                                                              | -      |
+|                       | Automatically recognize USB devices                          | -      |
+|                       | Automatically mount USB devices                              | -      |
+| **Communications**    |                                                              |        |
+|                       | Audio                                                        | -      |
+|                       | Bluetooth headphones                                         | -      |
+|                       | rfkill                                                       | -      |
+| **Power management**  |                                                              |        |
+|                       | Suspend                                                      | -      |
+|                       | Suspend on closing lid                                       | -      |
+|                       | Hibernate                                                    | -      |
+|                       | AC power management                                          | -      |
+|                       | Battery power management                                     | -      |
+| **NVIDIA Video card** |                                                              |        |
+|                       | Driver                                                       | -      |
+|                       | Hybrid Graphics/On-demand `bumblebee`, `bbswitch`, `optirun` | -      |
+|                       | Nvidia/Intel graphic cards switch                            | -      |
+|                       | Sleep/wake on Nvidia                                         | -      |
+|                       | Sleep/wake on Intel                                          | -      |
 
 ## Before installation
 
