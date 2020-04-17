@@ -43,8 +43,8 @@ install_packages() {
 }
 
 makedirs() {
-  makedirs -p "$HOME/.config"
-  makedirs -p "$HOME/.local/bin"
+  mkdir -p "$HOME/.config"
+  mkdir -p "$HOME/.local/bin"
   xdg-user-dirs-update
 }
 

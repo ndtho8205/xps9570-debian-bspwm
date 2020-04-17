@@ -8,11 +8,11 @@ set -o pipefail
 user=$(id -un)
 
 # run as root
-# su -
+su -
 
 # install sudo package
 apt update
-apt install ${force:+'-y'} sudo
+apt install -y sudo
 
 # add current user to sudo group
 usermod -aG sudo "$user"
