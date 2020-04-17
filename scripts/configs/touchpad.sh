@@ -49,5 +49,6 @@ EOF
 
 if ! (return 0 2>/dev/null); then
   _parse_params "$@"
+
   setup_touchpad
 fi

@@ -54,7 +54,7 @@ _parse_params() {
 setup_dotfiles() {
   local dotfiles_installation_dir="${1}/dotfiles"
 
-  if [ $https ]; then
+  if [ ${https-} ]; then
     git clone https://github.com/ndtho8205/dotfiles.git "$dotfiles_installation_dir"
   else
     git clone git@github.com:ndtho8205/dotfiles.git "$dotfiles_installation_dir"
