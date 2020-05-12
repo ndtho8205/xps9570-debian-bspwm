@@ -81,7 +81,7 @@ setup_rofi() {
   autoreconf -i
   mkdir build && cd build
   ../configure --disable-check
-  make && make install
+  make && sudo make install
 }
 
 if ! (return 0 2>/dev/null); then
