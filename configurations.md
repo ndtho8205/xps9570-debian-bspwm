@@ -16,6 +16,17 @@
 
   Edit `~/.config/user-dirs.dirs` file as follow
 
+  ```sh
+  XDG_DOWNLOAD_DIR="$HOME/Downloads"
+  XDG_TEMPLATES_DIR="$HOME/Templates"
+  XDG_PUBLICSHARE_DIR="$HOME/Public"
+  XDG_DOCUMENTS_DIR="$HOME/Documents"
+  XDG_MUSIC_DIR="$HOME/"
+  XDG_PICTURES_DIR="$HOME/Pictures"
+  XDG_VIDEOS_DIR="$HOME/"
+  XDG_DESKTOP_DIR="$HOME/"
+  ```
+
   Create default user directories:
 
   ```sh
@@ -37,4 +48,3 @@
   ```
 
 - Config multi-touch gesture
-

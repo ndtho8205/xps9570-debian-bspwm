@@ -7,7 +7,7 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+usage: $(basename "$0")
 
 Options:
   -f, --force    Skip all user interaction. Implied 'Yes' to all actions
@@ -23,10 +23,6 @@ _parse_params() {
     shift
 
     case $param in
-    -i)
-      installation_dir=$1
-      shift
-      ;;
     -f | --force)
       force=true
       ;;
@@ -40,39 +36,44 @@ _parse_params() {
       ;;
     esac
   done
-
-  if [ -z "$installation_dir" ]; then
-    echo "error: the following arguments are required: -i INSTALLATION_DIR"
-    exit 1
-  fi
 }
 
-_install_bspwm_dependencies() {
-  sudo apt install ${force:+'-y'} \
-    xcb libxcb-util0-dev libxcb-ewmh-dev libxcb-randr0-dev \
-    libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev \
-    libasound2-dev libxcb-xtest0-dev libxcb-shape0-dev xdotool
+_install_pyenv_dependencies() {
+  sudo apt install ${force:+'-y'} --no-install-recommends \
+    make build-essential libssl-dev zlib1g-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
+    xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 }
 
-setup_bspwm() {
-  local bspwm_installation_dir="${1}/bspwm"
+setup_pyenv() {
+  _install_pyenv_dependencies
 
-  _install_bspwm_dependencies
+  curl https://pyenv.run | bash
 
-  git clone https://github.com/baskerville/bspwm.git "$bspwm_installation_dir"
-  cd "$bspwm_installation_dir"
-  make && sudo make install
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
 
-  sudo update-alternatives --install \
-    /usr/bin/x-session-manager x-session-manager \
-    "$(command -v bspwm)" 90
+  pyenv install 3.6.10
+  pyenv global 3.6.10 system
+  
+  pip install --upgrade pip 
+}
+
+setup_pipx() {
+  pip install pipx
+}
+
+setup_poetry() {
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 }
 
 if ! (return 0 2>/dev/null); then
-  installation_dir=
 
   _parse_params "$@"
-  setup_bspwm "$installation_dir"
 
-  unset installation_dir
+  setup_pyenv
+  setup_pipx
+  setup_poetry
+
 fi

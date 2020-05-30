@@ -194,30 +194,33 @@ These steps help to install Debian alongside Windows 10 (dual-booting)
   - Save and reboot to Windows 10
   - Run `cmd` as an admin, then run `bcdedit /deletevalue {current} safeboot`
   - Reboot
-- Disable _Secure Boot_ to allow Debian to boot and prevent Nvidia card problems.
+- Disable _Secure Boot_ to allow Debian to boot and prevent Nvidia card
+  problems.
 - Download the Debian DVD installation image (ISO file). The **complete** image
-  should be used to make the installation easier later without an Internet connection.
-  Download links:
-  [using BitTorrent](https://cdimage.debian.org/debian-cd/current/amd64/bt-dvd/) or
-  [using HTTP](https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/).
-- Create a bootable USB using the downloaded image (using [Rufus](https://rufus.ie/) is highly recommended).
-- WiFi networks cannot be detected during the Debian installation due to the lack of non-free firmware in the image.
-  Thus, the firmware has to be manually downloaded at [this link](https://packages.debian.org/buster/firmware-atheros).
-  Then, copy the downloaded `firmware-atheros_*.deb` file to the `firmware` directory in the USB drive.
+  should be used to make the installation easier later without an Internet
+  connection. Download links:
+  [using BitTorrent](https://cdimage.debian.org/debian-cd/current/amd64/bt-dvd/)
+  or [using HTTP](https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/).
+- Create a bootable USB using the downloaded image (using
+  [Rufus](https://rufus.ie/) is highly recommended).
+- WiFi networks cannot be detected during the Debian installation due to the
+  lack of non-free firmware in the image. Thus, the firmware has to be manually
+  downloaded at
+  [this link](https://packages.debian.org/buster/firmware-atheros). Then, copy
+  the downloaded `firmware-atheros_*.deb` file to the `firmware` directory in
+  the USB drive.
 
 We are good to go!
 
 ## Debian Installation
 
 - Carefully follow the installation instructions.
-- _Detect network hardware_:
-  A warning message may appear (missing firmware file `ath10k/pre-cal-pci-000`).
-  Just ignore since it won't affect the network connection.
-  The installation will connect to the WiFi successfully.
+- _Detect network hardware_: A warning message may appear (missing firmware file
+  `ath10k/pre-cal-pci-000`). Just ignore since it won't affect the network
+  connection. The installation will connect to the WiFi successfully.
 - _Software selection_: choose only `standard system utilitites`.
-- Finish the installation and reboot to Debian.
-  Since we don't install any desktop environment, a terminal will be showed
-  instead.
+- Finish the installation and reboot to Debian. Since we don't install any
+  desktop environment, a terminal will be showed instead.
 - Login with your username and password.
 
 ## Things To Do Right After Installation
@@ -228,7 +231,8 @@ We are good to go!
   su -
   ```
 
-- Config `apt` to get and install packages offline from the installation USB drive.
+- Config `apt` to get and install packages offline from the installation USB
+  drive.
 
   ```sh
   fdisk -l            # <--- find the USB partition,
@@ -256,8 +260,8 @@ We are good to go!
   ```
 
 - Add `contrib` and `non-free` components to `/etc/apt/sources.list` file and
-  remove unused sources (`cdrom` and `/dev/usb0` that we added before).
-  The file content should looks like following
+  remove unused sources (`cdrom` and `/dev/usb0` that we added before). The file
+  content should looks like following
 
   ```sh
   deb http://deb.debian.org/debian buster main contrib non-free
