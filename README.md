@@ -297,7 +297,6 @@ We are good to go!
 
   ```sh
   sudo apt install xorg
-  dpkg-reconfigure xserver-xorg
   ```
 
 - Display manager: _LightDM_
@@ -328,7 +327,7 @@ We are good to go!
 - Terminal Emulator: _Alacritty_
 
   ```sh
-  wget -o Alacritty.deb https://github.com/alacritty/alacritty/releases/download/v0.4.2/Alacritty-v0.4.2-ubuntu_18_04_amd64.deb
+  wget -O Alacritty.deb https://github.com/alacritty/alacritty/releases/download/v0.4.2/Alacritty-v0.4.2-ubuntu_18_04_amd64.deb
   sudo gdebi Alacritty.deb
   ```
 
@@ -341,7 +340,7 @@ We are good to go!
 - Google Chrome
 
   ```sh
-  wget -o Chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  wget -O Chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   sudo gdebi Chrome.deb
   ```
 
