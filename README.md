@@ -163,15 +163,21 @@ XPS 9570.
 |                       | Sleep/wake on Nvidia                                         | -      |
 |                       | Sleep/wake on Intel                                          | -      |
 
+## Requirements
+
+- Wifi connection
+- 8GB USB
+- Windows 10 have been already installed
+
 ## Before installation
 
 These steps help to install Debian alongside Windows 10 (dual-booting)
 
-- The System BIOS should be updated to the latest version
+- The System BIOS should be updated to the latest version.
 - **Do not** turn off BIOS POST Behaviour `FastBoot` (by changing from the
   default value `minimal` to `thorough`). Instead, Windows _fast startup_
   **_must_** be turned off, or the Windows filesystems might be corrupted when
-  booting to Debian and accessing Windows partitions
+  booting to Debian and accessing Windows partitions.
 - Change _SATA Operation mode_ from `RAID` to `AHCI` to allow Debian to detect
   the storage drive (NVMe SSD):
   - Run `cmd` as an admin (on Windows 10), then run
@@ -181,17 +187,69 @@ These steps help to install Debian alongside Windows 10 (dual-booting)
   - Save and reboot to Windows 10
   - Run `cmd` as an admin, then run `bcdedit /deletevalue {current} safeboot`
   - Reboot
-- Disable _Secure Boot_ to allow Debian to boot and prevent Nvidia card problems
-- Create a bootable CD/USB using Debian installation image. The **complete**
-  image should be used to make the installation easier without Internet
-  connection (Debian won't detect WiFi networks due to the lack of non-free WiFi
-  driver in the image)
+- Disable _Secure Boot_ to allow Debian to boot and prevent Nvidia card problems.
+- Download the Debian DVD installation image (ISO file). The **complete** image
+  should be used to make the installation easier later without an Internet connection.
+  Download links:
+  [using HTTP](https://cdimage.debian.org/debian-cd/current/amd64/bt-dvd/) or
+  [using BitTorrent](https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/).
+- Create a bootable USB using the downloaed image (using [Rufus](https://rufus.ie/) is highly recommended).
+- WiFi networks cannot be detected during the Debian installation due to the lack of non-free firmware in the image.
+  Thus, the firmware has to be manually downloaded at [this link](https://packages.debian.org/buster/firmware-atheros).
+  Then, copy the downloaded `firmware-atheros_*.deb` to the `firmware` directory in the USB drive.
 
-## Debian with bspwm Installation
+We are good to go!
 
-- [notes](./installation.md)
+## Debian Installation
 
-## After installation
+- Carefully follow the installation instructions.
+- _Detect network hardware_:
+  A warning messages about the missing firmware files (`ath10k/pre-cal-pci-000`) may appear.
+  Just ignore since tt won't affect the network connection.
+  The installation will connect to the Wifi successfully.
+- _Software selection_: choose only `standard system utilitites`.
+- Finish the installation and reboot to Debian.
+  Since we don't install any desktop environment, a terminal will be showed
+  instead. Login with your username and password.
+
+## Things To Do Right After Installation
+
+- Switch to `root` account to run commands
+  ```
+  su -
+  ```
+- Config `apt` to get and install packages offline from the installation USB drive.
+  ```
+  fdisk -l                       # <--- find the USB partition,
+                                 #      for example: /dev/sda1
+  mkdir /media/usb0
+  mount /dev/sda1 /media/usb0
+  echo "deb [trusted=yes] file:/media/usb0/ buster main contrib" > /etc/apt/sources.list
+  apt update
+  ```
+- Install `network-manager` and connect to the Wifi network
+  ```
+  apt install network-manager
+  nmtui
+  ```
+- Install `sudo`
+  ```
+  apt install sudo
+  usermod -aG sudo <your_username>
+  ```
+- Edit the `/etc/apt/sources.list` file
+  ```
+  apt update
+  ```
+- Install must-have packages
+- Reboot
+  ```
+  sudo reboot
+  ```
+
+## Install Desktop Environment
+
+## After Installation
 
 - [notes](./after-installation.md)
 
