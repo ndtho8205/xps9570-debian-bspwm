@@ -191,12 +191,12 @@ These steps help to install Debian alongside Windows 10 (dual-booting)
 - Download the Debian DVD installation image (ISO file). The **complete** image
   should be used to make the installation easier later without an Internet connection.
   Download links:
-  [using HTTP](https://cdimage.debian.org/debian-cd/current/amd64/bt-dvd/) or
-  [using BitTorrent](https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/).
-- Create a bootable USB using the downloaed image (using [Rufus](https://rufus.ie/) is highly recommended).
+  [using BitTorrent](https://cdimage.debian.org/debian-cd/current/amd64/bt-dvd/) or
+  [using HTTP](https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/).
+- Create a bootable USB using the downloaded image (using [Rufus](https://rufus.ie/) is highly recommended).
 - WiFi networks cannot be detected during the Debian installation due to the lack of non-free firmware in the image.
   Thus, the firmware has to be manually downloaded at [this link](https://packages.debian.org/buster/firmware-atheros).
-  Then, copy the downloaded `firmware-atheros_*.deb` to the `firmware` directory in the USB drive.
+  Then, copy the downloaded `firmware-atheros_*.deb` file to the `firmware` directory in the USB drive.
 
 We are good to go!
 
@@ -204,13 +204,14 @@ We are good to go!
 
 - Carefully follow the installation instructions.
 - _Detect network hardware_:
-  A warning messages about the missing firmware files (`ath10k/pre-cal-pci-000`) may appear.
-  Just ignore since tt won't affect the network connection.
+  A warning message may appear (missing firmware file `ath10k/pre-cal-pci-000`).
+  Just ignore since it won't affect the network connection.
   The installation will connect to the Wifi successfully.
 - _Software selection_: choose only `standard system utilitites`.
 - Finish the installation and reboot to Debian.
   Since we don't install any desktop environment, a terminal will be showed
-  instead. Login with your username and password.
+  instead.
+- Login with your username and password.
 
 ## Things To Do Right After Installation
 
@@ -227,21 +228,42 @@ We are good to go!
   echo "deb [trusted=yes] file:/media/usb0/ buster main contrib" > /etc/apt/sources.list
   apt update
   ```
-- Install `network-manager` and connect to the Wifi network
-  ```
-  apt install network-manager
-  nmtui
-  ```
 - Install `sudo`
   ```
   apt install sudo
   usermod -aG sudo <your_username>
   ```
-- Edit the `/etc/apt/sources.list` file
+- Logout and login again
+- Install `network-manager` and connect to the Wifi network
   ```
-  apt update
+  sudo apt install network-manager
+  sudo /etc/init.d/network-manager restart
+  nmtui
   ```
-- Install must-have packages
+- Add `contrib` and `non-free` components to `/etc/apt/sources.list` file and
+  remove unused sources (`cdrom` and `/dev/usb0` that we added before).
+  The file content should looks like following
+  ```
+  deb http://deb.debian.org/debian buster main contrib non-free
+  # deb-src http://deb.debian.org/debian buster main
+
+  deb http://deb.debian.org/debian-security/ buster/updates main contrib non-free
+  # deb-src http://deb.debian.org/debian-security/ buster/updates main
+
+  deb http://deb.debian.org/debian buster-updates main contrib non-free
+  # deb-src http://deb.debian.org/debian buster-updates main
+  ```
+- Update and upgrade installed packages
+  ```
+  sudo apt update
+  sudo apt upgrade
+  ```
+- Install some important packages
+  ```
+  sudo apt install wget curl gdebi-core unzip fontconfig
+  sudo apt install build-essential git    # <--- you can skip this,
+                                          #      if you were not a coder like me
+  ```
 - Reboot
   ```
   sudo reboot
@@ -249,6 +271,13 @@ We are good to go!
 
 ## Install Desktop Environment
 
+- bspwm
+- sxhkd
+- User directories
+  ```
+  sudo apt install xdg-user-dirs
+  xdg-user-dirs-update
+  ```
 ## After Installation
 
 - [notes](./after-installation.md)
