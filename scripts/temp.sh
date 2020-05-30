@@ -6,26 +6,14 @@ apt install vim-gtk3 tmux htop tree psmisc
 
 #{{{{****************************************************************
 #====================================================================
-# display server: X.Org
-sudo apt install xorg
-
-#====================================================================
-# display manager: LightDM
-sudo apt install lightdm
 
 #====================================================================
 # DE pre-installation
-
-#====================================================================
-# window manager: bspwm & sxhkd
 
 # if you want to change xsession later
 # sudo update-alternatives --config x-session-manager
 # if GNOME had been already installed
 # sudo cp bspwm/contrib/freedesktop/bspwm.desktop /usr/share/xsessions/
-
-#====================================================================
-# terminal emulator: Alacritty
 
 #====================================================================
 # zsh

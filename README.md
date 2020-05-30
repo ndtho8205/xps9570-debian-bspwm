@@ -12,12 +12,18 @@ XPS 9570.
 
 ## Table of contents
 
-- [My XPS 9570 Specifications](#my-xps-9570-specifications)
-- [Functionality](#functionality)
-- [Before installation](#before-installation)
-- [Debian with bspwm Installation](#debian-with-bspwm-installation)
-- [After installation](#after-installation)
-- [Credits](#credits)
+- [xps9570-debian-bspwm](#xps9570-debian-bspwm)
+  - [TODO](#todo)
+  - [Table of contents](#table-of-contents)
+  - [My XPS 9570 Specifications](#my-xps-9570-specifications)
+  - [Functionality](#functionality)
+  - [Requirements](#requirements)
+  - [Before installation](#before-installation)
+  - [Debian Installation](#debian-installation)
+  - [Things To Do Right After Installation](#things-to-do-right-after-installation)
+  - [Install Desktop Environment](#install-desktop-environment)
+  - [More softwares](#more-softwares)
+  - [Credits](#credits)
 
 ## My XPS 9570 Specifications
 
@@ -206,7 +212,7 @@ We are good to go!
 - _Detect network hardware_:
   A warning message may appear (missing firmware file `ath10k/pre-cal-pci-000`).
   Just ignore since it won't affect the network connection.
-  The installation will connect to the Wifi successfully.
+  The installation will connect to the WiFi successfully.
 - _Software selection_: choose only `standard system utilitites`.
 - Finish the installation and reboot to Debian.
   Since we don't install any desktop environment, a terminal will be showed
@@ -216,34 +222,43 @@ We are good to go!
 ## Things To Do Right After Installation
 
 - Switch to `root` account to run commands
-  ```
+
+  ```sh
   su -
   ```
+
 - Config `apt` to get and install packages offline from the installation USB drive.
-  ```
-  fdisk -l                       # <--- find the USB partition,
-                                 #      for example: /dev/sda1
+
+  ```sh
+  fdisk -l            # <--- find the USB partition,
+                      #      for example: /dev/sda1
   mkdir /media/usb0
   mount /dev/sda1 /media/usb0
   echo "deb [trusted=yes] file:/media/usb0/ buster main contrib" > /etc/apt/sources.list
   apt update
   ```
+
 - Install `sudo`
-  ```
+
+  ```sh
   apt install sudo
   usermod -aG sudo <your_username>
   ```
+
 - Logout and login again
-- Install `network-manager` and connect to the Wifi network
-  ```
+- Install `network-manager` and connect to the WiFi network
+
+  ```sh
   sudo apt install network-manager
   sudo /etc/init.d/network-manager restart
-  nmtui
+  nmtui         # <--- connect to WiFi
   ```
+
 - Add `contrib` and `non-free` components to `/etc/apt/sources.list` file and
   remove unused sources (`cdrom` and `/dev/usb0` that we added before).
   The file content should looks like following
-  ```
+
+  ```sh
   deb http://deb.debian.org/debian buster main contrib non-free
   # deb-src http://deb.debian.org/debian buster main
 
@@ -253,32 +268,122 @@ We are good to go!
   deb http://deb.debian.org/debian buster-updates main contrib non-free
   # deb-src http://deb.debian.org/debian buster-updates main
   ```
+
 - Update and upgrade installed packages
-  ```
+
+  ```sh
   sudo apt update
   sudo apt upgrade
   ```
+
 - Install some important packages
-  ```
+
+  ```sh
   sudo apt install wget curl gdebi-core unzip fontconfig
   sudo apt install build-essential git    # <--- you can skip this,
                                           #      if you were not a coder like me
   ```
+
 - Reboot
-  ```
+
+  ```sh
   sudo reboot
   ```
 
 ## Install Desktop Environment
 
-- bspwm
-- sxhkd
-- User directories
+- Display server: _Xorg_
+
+  ```sh
+  sudo apt install xorg
+  dpkg-reconfigure xserver-xorg
   ```
+
+- Display manager: _LightDM_
+
+  ```sh
+  sudo apt install lightdm
+  ```
+
+- Window manager: _bspwm_, _sxhkd_
+
+  ```sh
+  sudo apt install --no-install-recommends bspwm sxhkd
+  ```
+
+- Composite managers: _picom_
+- Window switcher, run dialog: _rofi_
+
+  ```sh
+  sudo apt install rofi
+  ```
+
+- Desktop notifications: _dunst_
+
+  ```sh
+  sudo apt install dunst libnotify-bin
+  ```
+
+- Terminal Emulator: _Alacritty_
+
+  ```sh
+  wget -o Alacritty.deb https://github.com/alacritty/alacritty/releases/download/v0.4.2/Alacritty-v0.4.2-ubuntu_18_04_amd64.deb
+  sudo gdebi Alacritty.deb
+  ```
+
+- Install custom JetBrains Mono Nerd fonts
+
+  ```sh
+  ./scripts/desktop_environment/fonts.sh
+  ```
+- Google Chrome
+
+  ```sh
+  wget -o Chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  sudo gdebi Chrome.deb
+  ```
+
+- Install git
+
+  ```sh
+  ./scripts/configs/git.sh
+  ssh -Tv git@github.com    # <--- check ssh connections
+  ssh -Tv git@gitlab.com
+  ```
+
+- Install my configs
+
+  ```sh
+  git clone git@github.com:ndtho8205/de-configs.git
+  cd de-configs
+  ./install.sh
+  ```
+
+- User directories
+
+  ```sh
   sudo apt install xdg-user-dirs
   xdg-user-dirs-update
   ```
-## After Installation
+
+- Reboot
+
+## More softwares
+
+- Install vim
+
+  ```sh
+  sudo apt install vim-gtk3
+  ```
+
+- Install my dotfiles
+
+  ```sh
+  git clone git@github.com:ndtho8205/dotfiles.git
+  cd dotfiles
+  git submodule update --init --recursive
+  ./install.sh
+  ```
 
 - [notes](./after-installation.md)
 
