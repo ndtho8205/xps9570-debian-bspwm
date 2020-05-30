@@ -45,15 +45,6 @@
 
   - Restart NetworkManager service
 
-* Touchpad, multi-touch gesture
-
-  ```sh
-  sudo apt-get install xserver-xorg-input-libinput
-  sudo apt-get remove --purge xserver-xorg-input-synaptics
-  sudo reboot
-  # add 90-touchpad.conf to /etc/X11/xorg.conf.d/
-  ```
-
 * Improve battery life
 
   ```sh

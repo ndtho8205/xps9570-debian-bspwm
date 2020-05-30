@@ -27,3 +27,14 @@
   ```sh
   sudo apt install --no-install-recommends pulseaudio alsa-utils
   ```
+
+- Config touchpad
+
+  ```sh
+  sudo apt install xserver-xorg-input-libinput
+  sudo apt purge xserver-xorg-input-synaptics
+  ./scripts/configs/touchpad.sh
+  ```
+
+- Config multi-touch gesture
+
