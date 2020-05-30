@@ -16,12 +16,6 @@
 
   `lsblk`
 
-- XDG user directories
-
-  `sudo apt install xdg-user-dirs && xdg-user-dirs-update` to create default
-  user directories (e.g. Desktop, Downloads) within `$HOME` directory. It also
-  create a local configuration file `~/.config/user-dirs.dirs`
-
 * Find application name
 
   `xprop | grep WM_CLASS`
@@ -40,13 +34,6 @@
   ```
 
 * Network management
-
-  ```sh
-  sudo apt install networkmanager
-  systemctl status NetworkManager
-  nmtui
-  nmcli
-  ```
 
   - Disable random MAC addresses by appending the following to
     `/etc/NetworkManager/NetworkManager.conf`:

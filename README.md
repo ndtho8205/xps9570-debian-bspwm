@@ -22,6 +22,7 @@ XPS 9570.
   - [Debian Installation](#debian-installation)
   - [Things To Do Right After Installation](#things-to-do-right-after-installation)
   - [Install Desktop Environment](#install-desktop-environment)
+  - [More configurations](#more-configurations)
   - [More softwares](#more-softwares)
   - [Credits](#credits)
 
@@ -280,8 +281,8 @@ We are good to go!
 
   ```sh
   sudo apt install wget curl gdebi-core unzip fontconfig
-  sudo apt install build-essential git    # <--- you can skip this,
-                                          #      if you were not a coder like me
+  sudo apt install build-essential git tree # <--- you can skip this,
+                                            #      if you were not a coder like me
   ```
 
 - Reboot
@@ -336,6 +337,7 @@ We are good to go!
   ```sh
   ./scripts/desktop_environment/fonts.sh
   ```
+
 - Google Chrome
 
   ```sh
@@ -343,48 +345,23 @@ We are good to go!
   sudo gdebi Chrome.deb
   ```
 
-- Install git
-
-  ```sh
-  ./scripts/configs/git.sh
-  ssh -Tv git@github.com    # <--- check ssh connections
-  ssh -Tv git@gitlab.com
-  ```
-
 - Install my configs
 
   ```sh
-  git clone git@github.com:ndtho8205/de-configs.git
+  git clone https://github.com/ndtho8205/de-configs.git
   cd de-configs
   ./install.sh
   ```
 
-- User directories
-
-  ```sh
-  sudo apt install xdg-user-dirs
-  xdg-user-dirs-update
-  ```
-
 - Reboot
+
+## More configurations
+
+- [notes](./configurations.md)
 
 ## More softwares
 
-- Install vim
-
-  ```sh
-  sudo apt install vim-gtk3
-  ```
-
-- Install my dotfiles
-
-  ```sh
-  git clone git@github.com:ndtho8205/dotfiles.git
-  cd dotfiles
-  git submodule update --init --recursive
-  ./install.sh
-  ```
-
+- [notes](./softwares.md)
 - [notes](./after-installation.md)
 
 ## Credits
