@@ -16,12 +16,12 @@
 
   `lsblk`
 
-* Find application name
+- Find application name
 
   `xprop | grep WM_CLASS`
 
-* Computer doesn't restart/logout: `nouveau.modeset = 0`
-* Kernel boot parameters
+- Computer doesn't restart/logout: `nouveau.modeset = 0`
+- Kernel boot parameters
 
   ```
   GRUB_CMDLINE_LINUX_DEFAULT="quiet nouvea.modeset=0 nogpumanager pcie_aspm=off acpi_backlight=none acpi_osi=Linux acpi_osi=!"
@@ -33,7 +33,7 @@
 
   ```
 
-* Network management
+- Network management
 
   - Disable random MAC addresses by appending the following to
     `/etc/NetworkManager/NetworkManager.conf`:
@@ -45,7 +45,7 @@
 
   - Restart NetworkManager service
 
-* Set DPI, anti-aliasing, hinting
+- Set DPI, anti-aliasing, hinting
 
   ```shell
   $ xrdb -query -all
@@ -58,4 +58,11 @@
   Xft.rgba:	none
   Xcursor.size:	24
   Xcursor.theme:	DMZ-White
+  ```
+
+- Bluetooth: bluetooth mouse, keyboard, headphones
+  ```sh
+  pacman -S pulseaudio-bluetooth
+  systemctl enable bluetooth.service
+  bluetoothctl
   ```

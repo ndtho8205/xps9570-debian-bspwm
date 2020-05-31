@@ -34,7 +34,8 @@ _parse_params() {
 }
 
 setup_swapfile() {
-  :
+  mkswap /dev/nvme0n1p2
+  swapon /dev/nvme0n1p2
 }
 
 if ! (return 0 2>/dev/null); then

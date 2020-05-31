@@ -94,3 +94,9 @@
   # sudo systemctl enable powertop
   sudo reboot
   ```
+
+- NTFS
+
+  ```sh
+  sudo apt install ntfs-3g
+  ```

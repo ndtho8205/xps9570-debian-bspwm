@@ -1,19 +1,19 @@
 # More softwares
 
-- Install `zsh`
+- **`zsh`**
 
   ```sh
   sudo apt install zsh
   chsh -s $(which zsh)
   ```
 
-- Install `vim`
+- **`vim`**
 
   ```sh
   sudo apt install vim-gtk3
   ```
 
-- Install my dotfiles
+- **My dotfiles**
 
   ```sh
   git clone git@github.com:ndtho8205/dotfiles.git
@@ -22,23 +22,38 @@
   ./install.sh
   ```
 
-- Download and install Visual Studio Code from
+- Download and install **Visual Studio Code** from
   [this link](https://code.visualstudio.com/docs/?dv=linux64_deb)
 
-- Install `feh` to manage wallpaper and display images
+- **`feh`** to manage wallpaper and display images
 
   ```sh
   sudo apt install --no-install-recommends feh
   ```
 
-- Install `maim` to take screenshot
+- **`maim`** to take screenshot
 
   ```sh
   sudo apt install maim
   ```
 
-- Install `ibus` and `ibus-bamboo` to type Vietnamse
+- **`ibus`** and **`ibus-bamboo`** to type Vietnamse
 
   ```sh
   ./scripts/configs/ibus.sh
+  ```
+
+- Download and install **VirtualBox** from
+  [this link](https://www.virtualbox.org/wiki/Downloads)
+
+- **Docker**
+
+  ```sh
+  ./scripts/apps/docker.sh
+  ```
+
+- **Neofetch**
+
+  ```sh
+  sudo apt install --no-install-recommends neofetch
   ```

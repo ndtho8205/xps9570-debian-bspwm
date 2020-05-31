@@ -274,7 +274,8 @@ We are good to go!
 
   ```sh
   sudo apt install network-manager
-  sudo /etc/init.d/network-manager restart
+  systemctl enable NetworkManager
+  # sudo /etc/init.d/network-manager restart
   nmtui         # <--- connect to WiFi
   ```
 
@@ -306,8 +307,9 @@ We are good to go!
   sudo apt install wget curl gdebi-core unzip \
     fontconfig intel-microcode software-properties-common
 
-  sudo apt install build-essential git tree # <--- you can skip this,
-                                            #      if you were not a coder like me
+  sudo apt install build-essential git \ # <--- you can skip this,
+    tree htop                            #      if you were not a coder like me
+
   ```
 
 - Reboot
