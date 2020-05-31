@@ -1,23 +1,3 @@
-# Debian with bspwm Installation
-
-## Debian installation
-
-## Desktop enviroment
-
-- [ ] Terminal Emulator
-- [ ] Dotfiles
-- [ ] Display server
-- [ ] Display manager
-- [ ] Tiling window manager
-- [ ] Shell
-- [ ] Notification
-- [ ] Application launcher
-- [ ] Network manager
-- [ ] Touchpad
-- [ ] Volume control
-- [ ] Backlight control
-- [ ] Screen locker
-
 ## Notes
 
 - Hotkey daemon: xchainkeys

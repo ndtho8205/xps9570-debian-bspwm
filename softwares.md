@@ -24,3 +24,21 @@
 
 - Download and install Visual Studio Code from
   [this link](https://code.visualstudio.com/docs/?dv=linux64_deb)
+
+- Install `feh` to manage wallpaper and display images
+
+  ```sh
+  sudo apt install --no-install-recommends feh
+  ```
+
+- Install `maim` to take screenshot
+
+  ```sh
+  sudo apt install maim
+  ```
+
+- Install `ibus` and `ibus-bamboo` to type Vietnamse
+
+  ```sh
+  ./scripts/configs/ibus.sh
+  ```

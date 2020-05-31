@@ -45,17 +45,6 @@
 
   - Restart NetworkManager service
 
-* Improve battery life
-
-  ```sh
-  sudo apt update
-  sudo apt install tlp tlp-rdw powertop
-  sudo tlp start
-  sudo powertop --auto-tune
-  # sudo systemctl enable powertop
-  sudo reboot
-  ```
-
 * Set DPI, anti-aliasing, hinting
 
   ```shell

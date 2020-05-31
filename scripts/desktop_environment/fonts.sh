@@ -59,10 +59,15 @@ _install_ms_fonts() {
   sudo apt install ${force:+'-y'} ttf-mscorefonts-installer
 }
 
+_install_emoji_fonts() {
+  sudo apt install fonts-noto-color-emoji
+}
+
 setup_fonts() {
   _install_east_asia_fonts
   _install_jetbrainsmono_nerd_font
   _install_ms_fonts
+  _install_emoji_fonts
 
   fc-cache -fv
 }

@@ -7,7 +7,7 @@ set -o pipefail
 
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR -v GO_VERSION
 
 Options:
   -f, --force    Skip all user interaction. Implied 'Yes' to all actions
@@ -25,6 +25,10 @@ _parse_params() {
     case $param in
     -i)
       installation_dir=$1
+      shift
+      ;;
+    -v)
+      go_version=$1
       shift
       ;;
     -f | --force)
@@ -45,34 +49,30 @@ _parse_params() {
     echo "error: the following arguments are required: -i INSTALLATION_DIR"
     exit 1
   fi
+
+  if [ -z "$go_version" ]; then
+    echo "error: the following arguments are required: -v GO_VERSION"
+    exit 1
+  fi
+
 }
 
-_install_bspwm_dependencies() {
-  sudo apt install ${force:+'-y'} \
-    xcb libxcb-util0-dev libxcb-ewmh-dev libxcb-randr0-dev \
-    libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev \
-    libasound2-dev libxcb-xtest0-dev libxcb-shape0-dev xdotool
-}
+setup_go() {
+  local go_installation_dir="${1}/go"
+  local go_version="${2}"
 
-setup_bspwm() {
-  local bspwm_installation_dir="${1}/bspwm"
+  wget -O go.tar.gz "https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz"
 
-  _install_bspwm_dependencies
-
-  git clone https://github.com/baskerville/bspwm.git "$bspwm_installation_dir"
-  cd "$bspwm_installation_dir"
-  make && sudo make install
-
-  sudo update-alternatives --install \
-    /usr/bin/x-session-manager x-session-manager \
-    "$(command -v bspwm)" 90
+  tar -C "$go_installation_dir" -xzf go.tar.gz
 }
 
 if ! (return 0 2>/dev/null); then
   installation_dir=
+  go_version=
 
   _parse_params "$@"
-  setup_bspwm "$installation_dir"
+  setup_go "$installation_dir" "$go_version"
 
   unset installation_dir
+  unset go_version
 fi

@@ -5,10 +5,29 @@ XPS 9570.
 
 ## TODO
 
+### Overall
+
 - [x] Before installation: steps + docs
-- [ ] Debian + Desktop enviroment installation (WIP: working on virtual machine
-      before installing on the real computer)
+- [ ] Debian + Desktop enviroment installation
+  - [x] on virtual machine
+  - [ ] on the real computer
 - [ ] After installation: apps + tools + docs
+
+### Desktop environment installation
+
+- [x] Terminal Emulator
+- [x] Dotfiles
+- [x] Display server
+- [x] Display manager
+- [x] Tiling window manager
+- [x] Shell
+- [x] Notification
+- [x] Application launcher
+- [x] Network manager
+- [x] Touchpad
+- [x] Volume control
+- [x] Backlight control
+- [ ] Screen locker
 
 ## Table of contents
 
@@ -284,7 +303,8 @@ We are good to go!
 - Install some important packages
 
   ```sh
-  sudo apt install wget curl gdebi-core unzip fontconfig
+  sudo apt install wget curl gdebi-core unzip \
+    fontconfig intel-microcode software-properties-common
   sudo apt install build-essential git tree # <--- you can skip this,
                                             #      if you were not a coder like me
   ```
