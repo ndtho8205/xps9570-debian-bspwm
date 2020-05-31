@@ -238,7 +238,7 @@ We are good to go!
   `ath10k/pre-cal-pci-000`). Just ignore since it won't affect the network
   connection. The installation will connect to the WiFi successfully.
 - _Software selection_: choose only `standard system utilitites`.
-- Finish the installation and reboot to Debian. Since we don't install any
+- Finish the installation and reboot to Debian. Since we did not install any
   desktop environment, a terminal will be showed instead.
 - Login with your username and password.
 
@@ -251,7 +251,7 @@ We are good to go!
   ```
 
 - Config `apt` to get and install packages offline from the installation USB
-  drive.
+  drive
 
   ```sh
   fdisk -l            # <--- find the USB partition,
@@ -262,7 +262,7 @@ We are good to go!
   apt update
   ```
 
-- Install `sudo`
+- Install `sudo` using package from the USB drive
 
   ```sh
   apt install sudo
@@ -278,9 +278,9 @@ We are good to go!
   nmtui         # <--- connect to WiFi
   ```
 
-- Add `contrib` and `non-free` components to `/etc/apt/sources.list` file and
-  remove unused sources (`cdrom` and `/dev/usb0` that we added before). The file
-  content should looks like following
+- Now, we can remove `cdrom` and `/dev/usb0` sources and install packages using
+  WiFi. Also add `contrib` and `non-free` components to `/etc/apt/sources.list`
+  file. The file content should looks like this:
 
   ```sh
   deb http://deb.debian.org/debian buster main contrib non-free
@@ -293,7 +293,7 @@ We are good to go!
   # deb-src http://deb.debian.org/debian buster-updates main
   ```
 
-- Update and upgrade installed packages
+- Update and upgrade installed packages using WiFi network
 
   ```sh
   sudo apt update
@@ -305,6 +305,7 @@ We are good to go!
   ```sh
   sudo apt install wget curl gdebi-core unzip \
     fontconfig intel-microcode software-properties-common
+
   sudo apt install build-essential git tree # <--- you can skip this,
                                             #      if you were not a coder like me
   ```
@@ -317,10 +318,17 @@ We are good to go!
 
 ## Install Desktop Environment
 
+- Fix missing firmware in `/lib/firmware/i915`
+
+  ```sh
+  sudo apt install firmware-misc-nonfree
+  ```
+
 - Display server: _Xorg_
 
   ```sh
   sudo apt install xorg
+  sudo apt install xserver-xorg-video-intel
   ```
 
 - Display manager: _LightDM_
@@ -355,17 +363,19 @@ We are good to go!
   sudo gdebi Alacritty.deb
   ```
 
-- Install custom JetBrains Mono Nerd fonts
-
-  ```sh
-  ./scripts/desktop_environment/fonts.sh
-  ```
-
 - Google Chrome
 
   ```sh
   wget -O Chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   sudo gdebi Chrome.deb
+  ```
+
+The two following steps can be skipped since it is my personal configs.
+
+- Install fonts including custom JetBrains Mono Nerd font.
+
+  ```sh
+  ./scripts/desktop_environment/fonts.sh
   ```
 
 - Install my configs
@@ -376,7 +386,19 @@ We are good to go!
   ./install.sh
   ```
 
+It is important to have `bspwm` and `sxhkd` configs in the right place. You can
+create the default configs for them as follows:
+
+```
+cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/bspwmrc
+cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/sxhkdrc
+chmod +x ~/.config/bspwm/bspwmrc
+```
+
 - Reboot
+
+Lightdm login screen will be showed this time. After login, press
+<kbd>Windows</kbd> + <kbd>Enter</kbd> to open a terminal.
 
 ## More configurations
 
