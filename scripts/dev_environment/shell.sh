@@ -40,6 +40,9 @@ _parse_params() {
 
 setup_shell() {
   sudo apt install shellcheck
+  sudo apt install snapd
+  sudo systemctl start snapd
+  sudo snap install shfmt
 }
 
 if ! (return 0 2>/dev/null); then
