@@ -76,8 +76,9 @@ setup_docker() {
 
   sudo groupadd docker
   sudo usermod -aG docker "$USER"
+  newgrp docker
 
-  sudo systemctl enable docker
+  sudo systemctl start docker
 }
 
 if ! (return 0 2>/dev/null); then

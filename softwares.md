@@ -54,6 +54,12 @@
   sudo apt install --no-install-recommends neofetch
   ```
 
+- **ranger**
+
+  ```sh
+  pipx install ranger-fm
+  ```
+
 ## GUI Tools
 
 - Download and install **Visual Studio Code** from
