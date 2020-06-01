@@ -1,4 +1,6 @@
-# More softwares
+# More Softwares
+
+## CLI Tools
 
 - **`zsh`**
 
@@ -22,9 +24,6 @@
   ./install.sh
   ```
 
-- Download and install **Visual Studio Code** from
-  [this link](https://code.visualstudio.com/docs/?dv=linux64_deb)
-
 - **`feh`** to manage wallpaper and display images
 
   ```sh
@@ -43,9 +42,6 @@
   ./scripts/configs/ibus.sh
   ```
 
-- Download and install **VirtualBox** from
-  [this link](https://www.virtualbox.org/wiki/Downloads)
-
 - **Docker**
 
   ```sh
@@ -57,3 +53,11 @@
   ```sh
   sudo apt install --no-install-recommends neofetch
   ```
+
+## GUI Tools
+
+- Download and install **Visual Studio Code** from
+  [this link](https://code.visualstudio.com/docs/?dv=linux64_deb)
+
+- Download and install **VirtualBox** from
+  [this link](https://www.virtualbox.org/wiki/Downloads)
