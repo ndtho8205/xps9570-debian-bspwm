@@ -83,6 +83,54 @@
   ./scripts/configs/touchpad.sh
   ```
 
+- Intel Graphics card
+
+  ```sh
+   sudo apt install mesa-utils
+   glxinfo | grep OpenGL
+  ```
+
+  If in the `OpenGL renderer string`, you see `llvmpipe`, that means the system
+  doesn't use the GPU.
+
+  3D acceleration: `glxinfo | grep rendering`
+
+  Testing performance: `glxgears -info`
+
+- [**NVIDIA Proprietary Driver**](https://wiki.debian.org/NvidiaGraphicsDrivers#Drivers)
+
+  ```sh
+  sudo apt install linux-headers-amd64
+  ```
+
+  Add `buster-backports` to `/etc/apt/sources.list` to install driver with
+  latest version (440.82):
+
+  ```sh
+  deb http://deb.debian.org/debian buster-backports main contrib non-free
+  ```
+
+  Install package `nvidia-driver`:
+
+  ```sh
+  sudo apt update
+  sudo apt install -t buster-backports nvidia-driver nvidia-smi
+  ```
+
+  Reboot to load the updated driver.
+
+  BumbleBee
+
+  Checking drivers:
+
+  ```ssh
+  glxinfo | grep OpenGL # for Intel
+  optirun glxinfo | grep OpenGL # for NVIDIA
+
+  glxgears -info # for Intel
+  optirun glxgears -info # for NVIDIA
+  ```
+
 - Config multi-touch gesture
 
 - Improve battery life
