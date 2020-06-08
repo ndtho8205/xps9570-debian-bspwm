@@ -10,7 +10,7 @@ XPS 9570.
 - [x] Before installation: steps + docs
 - [ ] Debian + Desktop enviroment installation
   - [x] on virtual machine
-  - [ ] on the real computer
+  - [ ] on the real computer (WIP)
 - [ ] After installation: apps + tools + docs
 
 ### Desktop environment installation
@@ -47,30 +47,30 @@ XPS 9570.
 
 ## My XPS 9570 Specifications
 
-| Specification            | Detail                                            | Kernel Driver | Status             |
-| ------------------------ | ------------------------------------------------- | ------------- | ------------------ |
-| CPU                      | Intel Core i7-8750H CPU                           |               | :heavy_check_mark: |
-| Memory                   | 16GB DDR4-2666MHz                                 |               | -                  |
-| Storage                  | 512GB PCIe NMVe SSD                               |               | -                  |
-| Keyboard                 | Backlit keyboard                                  |               | -                  |
-| Touchpad                 | Multi-touch gesture support                       |               | -                  |
-| Battery                  | 6-cell lithium ion (97WHr)                        |               | -                  |
-| Fingerprint reader       | Goodix Fingerprint Sensor Driver                  |               | -                  |
-| **Display**              |                                                   |               |                    |
-| Screen                   | 15.6-inch FHD non-touchscreen                     |               | -                  |
-| Integrated Video card    | Intel UHD Graphics 630                            |               | -                  |
-| Discrete Video card      | NVIDIA GeForce GTX 1050 Ti 4GB GDDR5              |               | -                  |
-| **Communications**       |                                                   |               |                    |
-| Wifi & Bluetooth         | Killer 1535 802.11ac 2x2 Wifi & Bluetooth 4.2     |               | -                  |
-| Speakers                 | ALC3266-CG with Waves MaxxAudio Pro               |               | -                  |
-| Microphone               | Dual-array microphones                            |               | -                  |
-| Webcam                   | Widescreen HD (720p)                              |               | -                  |
-| **Ports and Connectors** |                                                   |               |                    |
-| USB 3.0                  | Two USB 3.1 Gen 1 ports with PowerShare           |               | -                  |
-| Thunderbolt 3            | One port with Power delivery                      |               | -                  |
-| Video                    | One HDMI 2.0 port                                 |               | -                  |
-| Audio                    | One headset (headphone and microphone combo) port |               | -                  |
-| Media-card reader        | SD card, SD High Capacity, SD Extended capacity   |               | -                  |
+| Specification            | Detail                                            | Kernel Driver | Status |
+| ------------------------ | ------------------------------------------------- | ------------- | ------ |
+| CPU                      | Intel Core i7-8750H CPU                           |               | -      |
+| Memory                   | 16GB DDR4-2666MHz                                 |               | -      |
+| Storage                  | 512GB PCIe NMVe SSD                               |               | -      |
+| Keyboard                 | Backlit keyboard                                  |               | -      |
+| Touchpad                 | Multi-touch gesture support                       |               | -      |
+| Battery                  | 6-cell lithium ion (97WHr)                        |               | -      |
+| Fingerprint reader       | Goodix Fingerprint Sensor Driver                  |               | -      |
+| **Display**              |                                                   |               |        |
+| Screen                   | 15.6-inch FHD non-touchscreen                     |               | -      |
+| Integrated Video card    | Intel UHD Graphics 630                            |               | -      |
+| Discrete Video card      | NVIDIA GeForce GTX 1050 Ti 4GB GDDR5              |               | -      |
+| **Communications**       |                                                   |               |        |
+| Wifi & Bluetooth         | Killer 1535 802.11ac 2x2 Wifi & Bluetooth 4.2     |               | -      |
+| Speakers                 | ALC3266-CG with Waves MaxxAudio Pro               |               | -      |
+| Microphone               | Dual-array microphones                            |               | -      |
+| Webcam                   | Widescreen HD (720p)                              |               | -      |
+| **Ports and Connectors** |                                                   |               |        |
+| USB 3.0                  | Two USB 3.1 Gen 1 ports with PowerShare           |               | -      |
+| Thunderbolt 3            | One port with Power delivery                      |               | -      |
+| Video                    | One HDMI 2.0 port                                 |               | -      |
+| Audio                    | One headset (headphone and microphone combo) port |               | -      |
+| Media-card reader        | SD card, SD High Capacity, SD Extended capacity   |               | -      |
 
 `lspci -knn` output:
 
@@ -217,17 +217,15 @@ These steps help to install Debian alongside Windows 10 (dual-booting)
   problems.
 - Download the Debian DVD installation image (ISO file). The **complete** image
   should be used to make the installation easier later without an Internet
-  connection. Download links:
+  connection. Links:
   [using BitTorrent](https://cdimage.debian.org/debian-cd/current/amd64/bt-dvd/)
   or [using HTTP](https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/).
-- Create a bootable USB using the downloaded image (using
+- Create a bootable USB with the downloaded image (using
   [Rufus](https://rufus.ie/) is highly recommended).
 - WiFi networks cannot be detected during the Debian installation due to the
   lack of non-free firmware in the image. Thus, the firmware has to be manually
-  downloaded at
-  [this link](https://packages.debian.org/buster/firmware-atheros). Then, copy
-  the downloaded `firmware-atheros_*.deb` file to the `firmware` directory in
-  the USB drive.
+  downloaded at [this link](https://packages.debian.org/buster/firmware-atheros)
+  and placed in the `/firmware` directory on the USB drive.
 
 We are good to go!
 
@@ -236,15 +234,15 @@ We are good to go!
 - Carefully follow the installation instructions.
 - _Detect network hardware_: A warning message may appear (missing firmware file
   `ath10k/pre-cal-pci-000`). Just ignore since it won't affect the network
-  connection. The installation will connect to the WiFi successfully.
+  connection. The installer will connect to the WiFi successfully.
 - _Software selection_: choose only `standard system utilitites`.
 - Finish the installation and reboot to Debian. Since we did not install any
-  desktop environment, a terminal will be showed instead.
+  desktop environment, a virtual terminal will be showed instead.
 - Login with your username and password.
 
 ## Things To Do Right After Installation
 
-- Switch to `root` account to run commands
+- Start a interactive shell as the `root` user to run commands
 
   ```sh
   su -
@@ -274,14 +272,15 @@ We are good to go!
 
   ```sh
   sudo apt install network-manager
-  systemctl enable NetworkManager
+  systemctl start NetworkManager
   # sudo /etc/init.d/network-manager restart
   nmtui         # <--- connect to WiFi
   ```
 
-- Now, we can remove `cdrom` and `/dev/usb0` sources and install packages using
-  WiFi. Also add `contrib` and `non-free` components to `/etc/apt/sources.list`
-  file. The file content should looks like this:
+- Now, `cdrom` and `/dev/usb0` sources can be removed from
+  `/etc/apt/sources.list`. `apt` will install packages using WiFi. We can also
+  add `contrib`, `non-free` components or `buster-backports` distribution to the
+  file.
 
   ```sh
   deb http://deb.debian.org/debian buster main contrib non-free
@@ -292,6 +291,8 @@ We are good to go!
 
   deb http://deb.debian.org/debian buster-updates main contrib non-free
   # deb-src http://deb.debian.org/debian buster-updates main
+
+  deb http://deb.debian.org/debian/ buster-backports main contrib non-free
   ```
 
 - Update and upgrade installed packages using WiFi network
@@ -301,12 +302,10 @@ We are good to go!
   sudo apt upgrade
   ```
 
-- Install some important packages
+- Install some essential packages
 
   ```sh
-  sudo apt install wget curl gdebi-core unzip \
-    fontconfig intel-microcode software-properties-common
-
+  sudo apt install wget curl gdebi-core unzip
   sudo apt install build-essential git \ # <--- you can skip this,
     tree htop                            #      if you were not a coder like me
 
@@ -315,7 +314,7 @@ We are good to go!
 - Reboot
 
   ```sh
-  sudo reboot
+  systemctl reboot
   ```
 
 ## Building Custom Environment
@@ -328,6 +327,3 @@ We are good to go!
 - [notes](./after-installation.md)
 
 ## Credits
-
-- [Arch Linux Wiki](https://wiki.archlinux.org/index.php/Dell_XPS_15_9570)
-- [delta-one/dell-xps-15-9570-debian-linux](https://github.com/delta-one/dell-xps-15-9570-debian-linux)
