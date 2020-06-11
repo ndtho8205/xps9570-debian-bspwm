@@ -1,34 +1,36 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set -o errexit
 set -o errtrace
 set -o nounset
 set -o pipefail
 
+BSPWM_LATEST_VERSION="0.9.9"
+
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION]
 
 Options:
-  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -v VERSION     The version of bspwm to install.
+                 Default: $BSPWM_LATEST_VERSION
   -h, --help     Show this help and exit
+
 EOF
 }
 
 _parse_params() {
   local param
+  version="$BSPWM_LATEST_VERSION"
 
   while [[ $# -gt 0 ]]; do
     param="$1"
     shift
 
     case $param in
-    -i)
-      installation_dir=$1
+    -v)
+      version=$1
       shift
-      ;;
-    -f | --force)
-      force=true
       ;;
     -h | --help)
       _print_usage
@@ -40,39 +42,38 @@ _parse_params() {
       ;;
     esac
   done
-
-  if [ -z "$installation_dir" ]; then
-    echo "error: the following arguments are required: -i INSTALLATION_DIR"
-    exit 1
-  fi
 }
 
-_install_bspwm_dependencies() {
-  sudo apt install ${force:+'-y'} \
+_build_bspwm() {
+  apt install -y \
     xcb libxcb-util0-dev libxcb-ewmh-dev libxcb-randr0-dev \
     libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev \
     libasound2-dev libxcb-xtest0-dev libxcb-shape0-dev xdotool
+
+  git clone https://github.com/baskerville/bspwm.git
+  cd bspwm
+  git checkout "$version"
+  make
 }
 
-setup_bspwm() {
-  local bspwm_installation_dir="${1}/bspwm"
-
-  _install_bspwm_dependencies
-
-  git clone https://github.com/baskerville/bspwm.git "$bspwm_installation_dir"
-  cd "$bspwm_installation_dir"
-  make && sudo make install
-
-  sudo update-alternatives --install \
-    /usr/bin/x-session-manager x-session-manager \
-    "$(command -v bspwm)" 90
+_make_bspwm_deb() {
+  checkinstall \
+    --type=debian \
+    --install=no \
+    --fstrans=no \
+    --default \
+    --pkgversion="$version" \
+    --requires="libc6,libxcb-ewmh2,libxcb-icccm4,libxcb-keysyms1,libxcb-randr0,libxcb-util0,libxcb-xinerama0,libxcb1,x11-utils" \
+    --provides="x-window-manager" \
+    --pakdir="../build" \
+    make install PREFIX=/usr
 }
 
 if ! (return 0 2>/dev/null); then
-  installation_dir=
-
   _parse_params "$@"
-  setup_bspwm "$installation_dir"
 
-  unset installation_dir
+  _build_bspwm
+  _make_bspwm_deb
+
+  unset version
 fi

@@ -5,26 +5,30 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
+SXHKD_LATEST_VERSION="0.6.1"
+
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION]
 
 Options:
-  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -v VERSION     The version of sxhkd to install.
+                 Default: $SXHKD_LATEST_VERSION
   -h, --help     Show this help and exit
 EOF
 }
 
 _parse_params() {
   local param
+  version="$SXHKD_LATEST_VERSION"
 
   while [[ $# -gt 0 ]]; do
     param="$1"
     shift
 
     case $param in
-    -i)
-      installation_dir=$1
+    -v)
+      version=$1
       shift
       ;;
     -f | --force)
@@ -40,35 +44,38 @@ _parse_params() {
       ;;
     esac
   done
-
-  if [ -z "$installation_dir" ]; then
-    echo "error: the following arguments are required: -i INSTALLATION_DIR"
-    exit 1
-  fi
 }
 
-_install_sxhkd_dependencies() {
-  sudo apt install ${force:+'-y'} \
+_build_sxhkd() {
+  apt install -y \
     xcb libxcb-util0-dev libxcb-ewmh-dev libxcb-randr0-dev \
     libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-xinerama0-dev \
     libasound2-dev libxcb-xtest0-dev libxcb-shape0-dev xdotool
+
+  git clone https://github.com/baskerville/sxhkd.git
+  cd sxhkd
+  git checkout "$version"
+  make
 }
 
-setup_sxhkd() {
-  local sxhkd_installation_dir="${1}/sxhkd"
-
-  _install_sxhkd_dependencies
-
-  git clone https://github.com/baskerville/sxhkd.git "$sxhkd_installation_dir"
-  cd "$sxhkd_installation_dir"
-  make && sudo make install
+_make_sxhkd_deb() {
+  checkinstall \
+    --type=debian \
+    --install=no \
+    --fstrans=no \
+    --default \
+    --pkgversion="$version" \
+    --requires="libc6,libxcb-keysyms1,libxcb1" \
+    --provides="x-window-manager" \
+    --pakdir="../build" \
+    make install PREFIX=/usr
 }
 
 if ! (return 0 2>/dev/null); then
-  installation_dir=
-
   _parse_params "$@"
-  setup_sxhkd "$installation_dir"
 
-  unset installation_dir
+  _build_sxhkd
+  _make_sxhkd_deb
+
+  unset version
 fi

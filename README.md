@@ -272,7 +272,7 @@ We are good to go!
 
   ```sh
   sudo apt install network-manager
-  systemctl start NetworkManager
+  systemctl start network-manager.service
   # sudo /etc/init.d/network-manager restart
   nmtui         # <--- connect to WiFi
   ```
@@ -295,7 +295,8 @@ We are good to go!
   deb http://deb.debian.org/debian/ buster-backports main contrib non-free
   ```
 
-- Update and upgrade installed packages using WiFi network
+- Update list of available packages and upgrade installed ones using WiFi
+  network
 
   ```sh
   sudo apt update
@@ -306,8 +307,7 @@ We are good to go!
 
   ```sh
   sudo apt install wget curl gdebi-core unzip
-  sudo apt install build-essential git \ # <--- you can skip this,
-    tree htop                            #      if you were not a coder like me
+  sudo apt install build-essential git tree htop # <--- you can skip this, only for personal use
 
   ```
 
