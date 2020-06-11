@@ -4,8 +4,17 @@
 
 1. **Microcode**
 
+   Install Intel microcode to ensure system stability and prevent bugs/errata
+   that may cause incorrect processing, data corruption, and system lockups.
+
    ```sh
-   sudo apt install intel-microcode
+   sudo apt install --no-install-recommends intel-microcode
+   ```
+
+   Reboot and check the microcode version.
+
+   ```sh
+   sudo journalctl -b -k | grep "microcode updated early to"
    ```
 
 ## Graphical User Interface
@@ -29,7 +38,11 @@
 3. **Window Managers**: `bspwm`
 
    ```sh
-   sudo apt install --no-install-recommends bspwm sxhkd
+   sudo apt install --no-install-recommends sxhkd bspwm
+
+   sudo update-alternatives \
+     --install /usr/bin/x-window-manager\
+     x-window-manager $(command -v bspwm)" 90
    ```
 
    It is important to have `bspwm` and `sxhkd` configs in the right place. You
@@ -186,7 +199,9 @@
    fc-cache -fv # rebuild cached list of fonts
    ```
 
-2. **GTK and Qt Themes**
+2. Emoji Fonts
+
+3. **GTK and Qt Themes**
 
 ## Application
 

@@ -1,38 +1,35 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set -o errexit
 set -o errtrace
 set -o nounset
 set -o pipefail
 
+DUNST_LATEST_VERSION="1.4.1"
+
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -b GIT_BRANCH -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION]
 
 Options:
-  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -v VERSION     The version of dunst to install.
+                 Defaul: $DUNST_LATEST_VERSION
   -h, --help     Show this help and exit
 EOF
 }
 
 _parse_params() {
   local param
+  version="$DUNST_LATEST_VERSION"
 
   while [[ $# -gt 0 ]]; do
     param="$1"
     shift
 
     case $param in
-    -b)
-      branch=$1
+    -v)
+      version=$1
       shift
-      ;;
-    -i)
-      installation_dir=$1
-      shift
-      ;;
-    -f | --force)
-      force=true
       ;;
     -h | --help)
       _print_usage
@@ -44,47 +41,39 @@ _parse_params() {
       ;;
     esac
   done
-
-  if [ -z "$branch" ]; then
-    echo "error: the following arguments are required: -b GIT_BRANCH"
-    exit 1
-  fi
-
-  if [ -z "$installation_dir" ]; then
-    echo "error: the following arguments are required: -i INSTALLATION_DIR"
-    exit 1
-  fi
 }
 
-_install_dunst_dependencies() {
-  sudo apt install ${force:+'-y'} \
+_build_dunst() {
+  apt install -y \
     libdbus-1-dev libx11-dev libxinerama-dev \
     libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev \
     libgtk-3-dev libxdg-basedir-dev libnotify-dev
+
+  git clone https://github.com/dunst-project/dunst.git
+  cd dunst
+  # git checkout "v$version"
+  make PREFIX=/usr all
 }
 
-setup_dunst() {
-  local dunst_branch="${1}"
-  local dunst_installation_dir="${2}/dunst"
+_make_dunst_deb() {
+  PREFIX=/usr checkinstall \
+    --type=debian \
+    --install=no \
+    --fstrans=no \
+    --default \
+    --pkgversion="$version" \
+    --requires="default-dbus-session-bus,libc6,libcairo2,libdbus-1-3,libgdk-pixbuf2.0-0,libglib2.0-0,libpango-1.0-0,libpangocairo-1.0-0,libx11-6,libxdg-basedir1,libxinerama1,libxrandr2,libxss1,libnotify-bin" \
+    --provides="notification-daemon" \
+    --pakdir="../build" \
+    make PREFIX=/usr install
 
-  _install_dunst_dependencies
-
-  git clone https://github.com/dunst-project/dunst.git "$dunst_installation_dir"
-  cd "$dunst_installation_dir"
-  git checkout "$dunst_branch"
-  make && sudo make install
-
-  make dunstify
-  cp -vs "${dunst_installation_dir}/dunstify" ~/.local/bin/
 }
 
 if ! (return 0 2>/dev/null); then
-  branch=
-  installation_dir=
-
   _parse_params "$@"
-  setup_dunst "$branch" "$installation_dir"
 
-  unset branch
-  unset installation_dir
+  _build_dunst
+  _make_dunst_deb
+
+  unset version
 fi

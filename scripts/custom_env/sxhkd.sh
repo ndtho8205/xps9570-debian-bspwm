@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 set -o errexit
 set -o errtrace
@@ -66,7 +66,6 @@ _make_sxhkd_deb() {
     --default \
     --pkgversion="$version" \
     --requires="libc6,libxcb-keysyms1,libxcb1" \
-    --provides="x-window-manager" \
     --pakdir="../build" \
     make install PREFIX=/usr
 }
