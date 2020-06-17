@@ -5,30 +5,30 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
+ROFI_LATEST_VERSION="1.5.4"
+
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -b GIT_BRANCH -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION]
 
 Options:
-  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -v VERSION     The version of rofi to install.
+                 Default: $ROFI_LATEST_VERSION
   -h, --help     Show this help and exit
 EOF
 }
 
 _parse_params() {
   local param
+  version="$ROFI_LATEST_VERSION"
 
   while [[ $# -gt 0 ]]; do
     param="$1"
     shift
 
     case $param in
-    -b)
-      branch=$1
-      shift
-      ;;
-    -i)
-      installation_dir=$1
+    -v)
+      version=$1
       shift
       ;;
     -f | --force)
@@ -44,20 +44,10 @@ _parse_params() {
       ;;
     esac
   done
-
-  if [ -z "$branch" ]; then
-    echo "error: the following arguments are required: -b GIT_BRANCH"
-    exit 1
-  fi
-
-  if [ -z "$installation_dir" ]; then
-    echo "error: the following arguments are required: -i INSTALLATION_DIR"
-    exit 1
-  fi
 }
 
-_install_rofi_dependencies() {
-  sudo apt install ${force:+'-y'} \
+_build_rofi() {
+  apt install -y \
     dh-autoreconf libbison-dev flex \
     libpango1.0-dev libpangocairo-1.0-0 libcairo2-dev \
     libglib2.0 librsvg2-dev libstartup-notification0-dev \
@@ -65,32 +55,36 @@ _install_rofi_dependencies() {
     libxcb-ewmh-dev libxcb-icccm4-dev \
     libxcb-randr0-dev libxcb-xinerama0-dev \
     libjpeg-dev libxcb1-dev libxcb-xrm-dev
-}
 
-setup_rofi() {
-  local rofi_branch="${1}"
-  local rofi_installation_dir="${2}/rofi"
-
-  _install_rofi_dependencies
-
-  git clone https://github.com/davatorium/rofi.git "$rofi_installation_dir"
-  cd "$rofi_installation_dir"
-  git checkout "$rofi_branch"
+  git clone https://github.com/davatorium/rofi.git
+  cd rofi
+  git checkout "$version"
   git submodule update --init --recursive
 
   autoreconf -i
   mkdir build && cd build
-  ../configure --disable-check
-  make && sudo make install
+  ../configure --disable-check --prefix=/usr
+  make
+}
+
+_make_rofi_deb() {
+  checkinstall \
+    --type=debian \
+    --install=no \
+    --fstrans=no \
+    --default \
+    --pkgname="rofi" \
+    --pkgversion="$version" \
+    --requires="libc6,libcairo2,libglib2.0-0,libpango-1.0-0,libpangocairo-1.0-0,librsvg2-2,libstartup-notification0,libxcb-ewmh2,libxcb-randr0,libxcb-icccm4,libxcb-util0,libxcb-xinerama0,libxcb-xkb1,libxcb-xrm0,libxcb1,libxkbcommon-x11-0,libxkbcommon0" \
+    --pakdir="../../build" \
+    make install PREFIX=/usr
 }
 
 if ! (return 0 2>/dev/null); then
-  branch=
-  installation_dir=
-
   _parse_params "$@"
-  setup_rofi "$branch" "$installation_dir"
 
-  unset branch
-  unset installation_dir
+  _build_rofi
+  _make_rofi_deb
+
+  unset version
 fi
