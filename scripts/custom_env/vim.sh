@@ -49,7 +49,8 @@ _build_vim() {
     libncurses5-dev libgtk-3-dev libatk1.0-dev libcairo2-dev \
     libx11-dev libxpm-dev libxt-dev \
     python3-dev \
-    lua5.2 liblua5.2-dev libperl-dev # ruby-dev \
+    lua5.2 liblua5.2-dev libperl-dev
+  # ruby-dev \
 
   git clone https://github.com/vim/vim.git
   cd vim
@@ -76,7 +77,7 @@ _make_vim_deb() {
     --install=no \
     --fstrans=no \
     --default \
-    --pkgversion="$version" \
+    --pkgversion="2:$version" \
     --requires="libacl1,libc6,libcairo2,libgdk-pixbuf2.0-0,libglib2.0-0,libgpm2,libgtk-3-0,libice6,liblua5.2-0,libpango-1.0-0,libpangocairo-1.0-0,libperl5.28,libpython3.7,libselinux1,libsm6,libtcl8.6,libtinfo6,libx11-6,libxt6" \
     --pakdir="../build"
   #libruby2.5,
