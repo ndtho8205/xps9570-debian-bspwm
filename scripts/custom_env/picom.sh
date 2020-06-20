@@ -5,34 +5,30 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
+PICOM_LATEST_VERSION="8"
+
 _print_usage() {
   cat <<EOF
-usage: $(basename "$0") [OPTION] -b GIT_BRANCH -i INSTALLATION_DIR
+usage: $(basename "$0") [OPTION]
 
 Options:
-  -f, --force    Skip all user interaction. Implied 'Yes' to all actions
+  -v VERSION     The version of bspwm to install.
+                 Default: $PICOM_LATEST_VERSION
   -h, --help     Show this help and exit
 EOF
 }
 
 _parse_params() {
   local param
+  version="$PICOM_LATEST_VERSION"
 
   while [[ $# -gt 0 ]]; do
     param="$1"
     shift
 
     case $param in
-    -b)
-      branch=$1
-      shift
-      ;;
-    -i)
-      installation_dir=$1
-      shift
-      ;;
-    -f | --force)
-      force=true
+    -v)
+      version="$1"
       ;;
     -h | --help)
       _print_usage
@@ -44,20 +40,10 @@ _parse_params() {
       ;;
     esac
   done
-
-  if [ -z "$branch" ]; then
-    echo "error: the following arguments are required: -b GIT_BRANCH"
-    exit 1
-  fi
-
-  if [ -z "$installation_dir" ]; then
-    echo "error: the following arguments are required: -i INSTALLATION_DIR"
-    exit 1
-  fi
 }
 
-_install_picom_dependencies() {
-  sudo apt install ${force:+'-y'} \
+_build_picom() {
+  apt install -y \
     meson ninja-build libxdg-basedir-dev libpcre++-dev \
     libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev \
     libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev \
@@ -65,31 +51,33 @@ _install_picom_dependencies() {
     libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev \
     libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev \
     libevdev-dev uthash-dev libev-dev libx11-xcb-dev
-}
 
-setup_picom() {
-  local picom_branch="${1}"
-  local picom_installation_dir="${2}/picom"
-
-  _install_picom_dependencies
-
-  git clone https://github.com/yshui/picom.git "$picom_installation_dir"
-  cd "$picom_installation_dir"
-  git checkout "$picom_branch"
+  git clone https://github.com/yshui/picom.git
+  cd picom
+  git checkout "v$version"
   git submodule update --init --recursive
 
-  meson --buildtype=release . build
+  meson --prefix=/usr --buildtype=release . build
   ninja -C build
-  sudo ninja -C build install
+}
+
+_make_picom_deb() {
+  checkinstall \
+    --type=debian \
+    --install=no \
+    --fstrans=no \
+    --default \
+    --pkgversion="$version" \
+    --requires="libc6,libconfig9,libdbus-1-3,libev4,libgl1,libpcre3,libpixman-1-0,libx11-6,libx11-xcb1,libxcb-composite0,libxcb-damage0,libxcb-glx0,libxcb-image0,libxcb-present0,libxcb-randr0,libxcb-render-util0,libxcb-render0,libxcb-shape0,libxcb-sync1,libxcb-xfixes0,libxcb-xinerama0,libxcb1" \
+    --pakdir="../build" \
+    ninja -C build install
 }
 
 if ! (return 0 2>/dev/null); then
-  branch=
-  installation_dir=
-
   _parse_params "$@"
-  setup_picom "$branch" "$installation_dir"
 
-  unset branch
-  unset installation_dir
+  _build_picom
+  _make_picom_deb
+
+  unset version
 fi
