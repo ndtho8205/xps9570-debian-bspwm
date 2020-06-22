@@ -122,51 +122,75 @@ After login, press <kbd>Windows</kbd> + <kbd>Enter</kbd> to open a terminal.
 
 ## Input/Output devices
 
-1.  **Keyboard**
+1. **DPI**
 
-2.  **Touchpads**
+   Get actual size of the screen in `mm`.
 
-    ```sh
-    sudo apt install xserver-xorg-input-libinput
-    sudo apt purge xserver-xorg-input-synaptics
-    ./scripts/configs/touchpad.sh
-    ```
+   ```sh
+   $ xrandr | grep -w connected
+   eDP1 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis) 340mm x 190mm
+   ```
 
-3.  **Brightness controls**
+   Edit `/etc/X11/xorg.conf.d/70-monitor.conf`
 
-    ```sh
-    sudo apt install xbacklight
-    ```
+   ```sh
+   Section "Monitor"
+     Identifier  "<default monitor>"
+     DisplaySize 340 190
+   EndSection
+   ```
 
-    Check if `sys/class/backlight/intel_backlight` directory exists. If not, run
-    the following command:
+   Logout and check current DPI.
 
-    ```sh
-    $ sudo find /sys/ -type f -iname '*brightness*'
+   ```sh
+   xdpyinfo | grep -B2 resolution
+   ```
 
-    /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/actual_brightness
-    /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness
-    /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/max_brightness
-    ```
+2. **Keyboard**
 
-    Link the devices to `/sys/class/backlight/`
+3. **Touchpads**
 
-    ```sh
-    sudo ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight/intel_backlight
-    ```
+   ```sh
+   sudo apt install xserver-xorg-input-libinput
+   sudo apt purge xserver-xorg-input-synaptics
+   ./scripts/configs/touchpad.sh
+   ```
 
-    Create file `/etc/X11/xorg.conf.d/80-intel-backlight.conf` with the
-    following content
+4. **Brightness controls**
 
-    ```sh
-    Section "Device"
-    Identifier  "Intel Graphics"
-    Driver      "intel"
-    Option      "Backlight"  "intel_backlight"
-    EndSection
-    ```
+   ```sh
+   sudo apt install xbacklight
+   ```
 
-    Logout and login again.
+   Check if `sys/class/backlight/intel_backlight` directory exists. If not, run
+   the following command:
+
+   ```sh
+   $ sudo find /sys/ -type f -iname '*brightness*'
+
+   /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/actual_brightness
+   /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness
+   /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/max_brightness
+   ```
+
+   Link the devices to `/sys/class/backlight/`
+
+   ```sh
+   sudo ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight/intel_backlight
+   ```
+
+   Create file `/etc/X11/xorg.conf.d/80-intel-backlight.conf` with the following
+   content
+
+   ```sh
+   Section "Device"
+     Identifier  "Intel Graphics"
+     Driver      "intel"
+     Option      "Backlight"  "intel_backlight"
+   EndSection
+   ```
+
+   Logout and login again.
 
 ## Networking
 

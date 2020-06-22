@@ -45,20 +45,7 @@
 
   - Restart NetworkManager service
 
-- Set DPI, anti-aliasing, hinting
-
-  ```shell
-  $ xrdb -query -all
-
-  *customization:	-color
-  Xft.dpi:	96
-  Xft.antialias:	1
-  Xft.hinting:	1
-  Xft.hintstyle:	hintslight
-  Xft.rgba:	none
-  Xcursor.size:	24
-  Xcursor.theme:	DMZ-White
-  ```
+- Set anti-aliasing, hinting
 
 - Bluetooth: bluetooth mouse, keyboard, headphones
   ```sh
