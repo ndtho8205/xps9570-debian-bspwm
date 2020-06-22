@@ -6,7 +6,7 @@ set -o nounset
 set -o pipefail
 
 main() {
-  command=
+  command=''
 
   _parse_params "$@"
 
@@ -34,6 +34,8 @@ EOF
 
 _parse_params() {
   if [[ $# -eq 0 ]]; then
+    echo "No command/option specified."
+    echo
     _print_usage
     exit 1
   fi
@@ -134,21 +136,77 @@ _install_python_env() {
   pip install pipx
 
   curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+
+  pipx install black
+  pipx install flake8
+  pipx install pylint
+}
+
+##################################################
+## Docker
+##################################################
+
+_install_docker() {
+  sudo apt purge docker docker-engine docker.io containerd runc
+
+  sudo apt install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
+  sudo add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) \
+    stable"
+
+  sudo apt-get update
+  sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+  sudo groupadd docker
+  sudo usermod -aG docker "$USER"
+  newgrp docker
+
+  sudo systemctl start docker
+
+  pipx install docker-compose
 }
 
 ##################################################
 ## CLI Tools
 ##################################################
 
-_install_markdown() {
-  npm i -g markdownlint-cli prettier
-}
+_install_cli_tools() {
+  cargo install tealdeer
+  tldr --update
 
-_install_shell() {
+  cargo install --locked bat
+
+  cargo install watchexec
+
+  bash -c "$DOTFILES/vim/pack/plugins/start/fzf/install --bin"
+
+  npm i -g markdownlint-cli prettier
+
   sudo apt install shellcheck
+
   sudo apt install snapd
   sudo systemctl start snapd
   sudo snap install shfmt
+
+  go get github.com/jesseduffield/lazydocker
+}
+
+##################################################
+## GUI Tools
+##################################################
+
+_install_gui_tools() {
+  #vscode
+  :
 }
 
 main "$@"

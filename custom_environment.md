@@ -38,7 +38,7 @@
 3. **Window Managers**: `bspwm`
 
    ```sh
-   sudo apt install --no-install-recommends sxhkd bspwm
+   sudo apt install --no-install-recommends sxhkd bspwm xdotool
 
    sudo update-alternatives \
      --install /usr/bin/x-window-manager\
@@ -61,7 +61,26 @@
    sudo lightdm --show-config # show current configurations
    ```
 
-5. **User Directories**
+5. Window switcher, run dialog: _rofi_
+
+   ```sh
+   sudo apt install rofi
+   ```
+
+6. Desktop notifications: _dunst_
+
+   ```sh
+   sudo apt install dunst libnotify-bin
+   ```
+
+7. Terminal Emulator: _Alacritty_
+
+   ```sh
+   wget -O Alacritty.deb https://github.com/alacritty/alacritty/releases/download/v0.4.2/Alacritty-v0.4.2-ubuntu_18_04_amd64.deb
+   sudo gdebi Alacritty.deb
+   ```
+
+8. **User Directories**
 
    ```sh
    sudo apt install xdg-user-dirs
@@ -86,53 +105,68 @@
    xdg-user-dirs-update
    ```
 
+9. Composite managers: _picom_
+
+10. Configurations
+
+    - Install my configs
+
+      ```sh
+      git clone https://github.com/ndtho8205/de-configs.git
+      cd de-configs
+      ./install.sh
+      ```
+
+**Note:** Now you can reboot the system. Lightdm login screen will be showed.
+After login, press <kbd>Windows</kbd> + <kbd>Enter</kbd> to open a terminal.
+
 ## Input/Output devices
 
-1. **Keyboard**
+1.  **Keyboard**
 
-2. **Touchpads**
+2.  **Touchpads**
 
-   ```sh
-   sudo apt install xserver-xorg-input-libinput
-   sudo apt purge xserver-xorg-input-synaptics
-   ./scripts/configs/touchpad.sh
-   ```
+    ```sh
+    sudo apt install xserver-xorg-input-libinput
+    sudo apt purge xserver-xorg-input-synaptics
+    ./scripts/configs/touchpad.sh
+    ```
 
-3. **Brightness controls**
+3.  **Brightness controls**
 
-   ```sh
-   sudo apt install xbacklight
-   ```
+    ```sh
+    sudo apt install xbacklight
+    ```
 
-   Check if `sys/class/backlight/intel_backlight` directory exists. If not, run
-   the following command:
+    Check if `sys/class/backlight/intel_backlight` directory exists. If not, run
+    the following command:
 
-   ```sh
-   $ sudo find /sys/ -type f -iname '*brightness*'
+    ```sh
+    $ sudo find /sys/ -type f -iname '*brightness*'
 
-   /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/actual_brightness
-   /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness
-   /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/max_brightness
-   ```
+    /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/actual_brightness
+    /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness
+    /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/max_brightness
+    ```
 
-   Link the devices to `/sys/class/backlight/`
+    Link the devices to `/sys/class/backlight/`
 
-   ```sh
-   sudo ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight/intel_backlight
-   ```
+    ```sh
+    sudo ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight/intel_backlight
+    ```
 
-   Create file `/etc/X11/xorg.conf.d/80-intel-backlight.conf` with the following
-   content
+    Create file `/etc/X11/xorg.conf.d/80-intel-backlight.conf` with the
+    following content
 
-   ```sh
-   Section "Device"
-   Identifier  "Intel Graphics"
-   Driver      "intel"
-   Option      "Backlight"  "intel_backlight"
-   EndSection
-   ```
+    ```sh
+    Section "Device"
+    Identifier  "Intel Graphics"
+    Driver      "intel"
+    Option      "Backlight"  "intel_backlight"
+    EndSection
+    ```
 
-   Logout and login again.
+    Logout and login again.
 
 ## Networking
 
@@ -141,6 +175,15 @@
 2. **Internet**
 
 3. **Bluetooth**
+
+4. Browser
+
+   - Google Chrome
+
+   ```sh
+   wget -O Chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+   sudo gdebi Chrome.deb
+   ```
 
 ## Power Management
 
@@ -205,6 +248,26 @@
 
 ## Application
 
+### CLI
+
+1. Clipboard
+
+   ```sh
+   sudo apt install xclip
+   ```
+
+2. File Manager: _ranger_
+
+   ```sh
+   pipx install ranger-fm
+
+   # image previews
+   pipx install ueberzug
+
+   ```
+
+### GUI
+
 1. **VS Code**
 
    ```sh
@@ -259,47 +322,7 @@
   sudo apt install firmware-misc-nonfree
   ```
 
-- Composite managers: _picom_
-- Window switcher, run dialog: _rofi_
-
-  ```sh
-  sudo apt install rofi
-  ```
-
-- Desktop notifications: _dunst_
-
-  ```sh
-  sudo apt install dunst libnotify-bin
-  ```
-
-- Terminal Emulator: _Alacritty_
-
-  ```sh
-  wget -O Alacritty.deb https://github.com/alacritty/alacritty/releases/download/v0.4.2/Alacritty-v0.4.2-ubuntu_18_04_amd64.deb
-  sudo gdebi Alacritty.deb
-  ```
-
-- Google Chrome
-
-  ```sh
-  wget -O Chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  sudo gdebi Chrome.deb
-  ```
-
-  The following step can be skipped since it is my personal configs.
-
-- Install my configs
-
-  ```sh
-  git clone https://github.com/ndtho8205/de-configs.git
-  cd de-configs
-  ./install.sh
-  ```
-
-- Reboot
-
-  Lightdm login screen will be showed this time. After login, press
-  <kbd>Windows</kbd> + <kbd>Enter</kbd> to open a terminal.
+The following step can be skipped since it is my personal configs.
 
 ## More configurations
 
