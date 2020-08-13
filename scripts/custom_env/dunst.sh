@@ -5,7 +5,7 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-DUNST_LATEST_VERSION="1.4.1"
+DUNST_LATEST_VERSION="1.5.0"
 
 _print_usage() {
   cat <<EOF

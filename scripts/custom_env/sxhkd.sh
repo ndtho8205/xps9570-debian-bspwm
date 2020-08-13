@@ -5,7 +5,7 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-SXHKD_LATEST_VERSION="0.6.1"
+SXHKD_LATEST_VERSION="0.6.2"
 
 _print_usage() {
   cat <<EOF

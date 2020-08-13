@@ -5,7 +5,7 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-BSPWM_LATEST_VERSION="0.9.9"
+BSPWM_LATEST_VERSION="0.9.10"
 
 _print_usage() {
   cat <<EOF

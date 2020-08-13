@@ -5,7 +5,7 @@ set -o errtrace
 set -o nounset
 set -o pipefail
 
-VIM_LATEST_VERSION="8.2.1009"
+VIM_LATEST_VERSION="8.2.1441"
 
 _print_usage() {
   cat <<EOF
