@@ -80,3 +80,8 @@
   sudo apt install inofity-tools
   echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p\
   ```
+
+- Fix AppImage runs only with `--no-sandbox`
+  ```
+  echo "kernel.unprivileged_userns_clone=1" | sudo tee -a /etc/sysctl.d/00-local-userns.conf
+  ```

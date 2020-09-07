@@ -146,6 +146,12 @@ After login, press <kbd>Windows</kbd> + <kbd>Enter</kbd> to open a terminal.
    xdpyinfo | grep -B2 resolution
    ```
 
+   Place this in `~/.profile` to fix QT scaling:
+
+   ```sh
+   export QT_FONT_DPI=96
+   ```
+
 2. **Keyboard**
 
 3. **Touchpads**
@@ -227,7 +233,7 @@ After login, press <kbd>Windows</kbd> + <kbd>Enter</kbd> to open a terminal.
    actions when closing lid.
 
    ```sh
-   HHandlePowerKey=ignore
+   HandlePowerKey=ignore
    #HandleSuspendKey=suspend
    #HandleHibernateKey=hibernate
    #HandleLidSwitch=suspend
@@ -247,9 +253,9 @@ After login, press <kbd>Windows</kbd> + <kbd>Enter</kbd> to open a terminal.
      sudo apt install --no-install-recommends pulseaudio alsa-utils
    ```
 
-2) **Codecs**
+2. **Codecs**
 
-3) **Video**
+3. **Video**
 
 ## Appearance
 
